@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ImageView
+        android:id="@+id/main_logo"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha="0.2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/logo" />
+
+    <LinearLayout
+        android:id="@+id/admin_exit_linear_layout"
+        android:layout_width="43dp"
+        android:layout_height="43dp"
+        android:onClick="exitAdminAccount"
+        android:orientation="horizontal"
+        android:padding="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/admin_exit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="exitAdminAccount"
+            app:srcCompat="@drawable/exit" />
+    </LinearLayout>
+
+    <View
+        android:id="@+id/admin_line1"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="43dp"
+        android:background="@color/colorPrimaryDark"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/statistics"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:gravity="start"
+        android:onClick="viewTests"
+        android:paddingStart="@dimen/padding_standard"
+        android:paddingTop="10dp"
+        android:text="Тесты"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="@dimen/text_size_large"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/admin_line1" />
+
+    <View
+        android:id="@+id/admin_line2"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorPrimaryDark"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/statistics" />
+
+    <TextView
+        android:id="@+id/view_tests"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:gravity="start"
+        android:onClick="createTest"
+        android:paddingStart="@dimen/padding_standard"
+        android:paddingTop="10dp"
+        android:text="Создание теста"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="@dimen/text_size_large"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/admin_line2" />
+
+    <View
+        android:id="@+id/admin_line3"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorPrimaryDark"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/view_tests" />
+
+    <TextView
+        android:id="@+id/building_tests"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_marginStart="@dimen/padding_standard"
+        android:gravity="start"
+        android:paddingTop="10dp"
+        android:text="Просмотр статистики"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="@dimen/text_size_large"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/admin_line3" />
+
+    <View
+        android:id="@+id/admin_line4"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorPrimaryDark"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/building_tests" />
+</androidx.constraintlayout.widget.ConstraintLayout>

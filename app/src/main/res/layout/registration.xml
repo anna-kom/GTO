@@ -1,0 +1,371 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="true"
+        android:fillViewport="true"
+        android:fitsSystemWindows="true">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/logo"
+                android:layout_width="160dp"
+                android:layout_height="160dp"
+                android:layout_marginTop="40dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/logo" />
+
+            <TextView
+                android:id="@+id/surname_text"
+                android:text="Фамилия*"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/logo"
+                style="@style/textStandardStyle" />
+
+            <EditText
+                android:id="@+id/surname"
+                android:hint="Введите фамилию"
+                android:maxLength="40"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/surname_text"
+                style="@style/input" />
+
+            <TextView
+                android:id="@+id/name_text"
+                android:text="Имя*"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/surname"
+                style="@style/textStandardStyle" />
+
+            <EditText
+                android:id="@+id/name"
+                android:hint="Введите имя"
+                android:maxLength="40"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/name_text"
+                style="@style/input" />
+
+            <TextView
+                android:id="@+id/middle_name_text"
+                android:text="Отчество"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/name"
+                style="@style/textStandardStyle" />
+
+            <EditText
+                android:id="@+id/middle_name"
+                android:hint="Введите отчество"
+                android:maxLength="40"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/middle_name_text"
+                style="@style/input" />
+
+            <TextView
+                android:id="@+id/birth_date_text"
+                android:text="Дата рождения*"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/middle_name"
+                style="@style/textStandardStyle" />
+
+            <EditText
+                android:clickable="false"
+                android:cursorVisible="false"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:id="@+id/birth_date"
+                android:hint="Введите дату"
+                android:onClick="setDate"
+                android:inputType="date"
+                android:maxLength="40"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/birth_date_text"
+                style="@style/input" />
+
+            <TextView
+                android:id="@+id/email_text"
+                style="@style/textStandardStyle"
+                android:text="Email*"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/birth_date" />
+
+            <EditText
+                android:id="@+id/email"
+                android:hint="example@mail.com"
+                android:inputType="textEmailAddress"
+                android:maxLength="40"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/email_text"
+                style="@style/input" />
+
+            <TextView
+                android:id="@+id/phone_text"
+                android:text="Телефон"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/email"
+                style="@style/textStandardStyle" />
+
+            <EditText
+                android:id="@+id/phone"
+                android:hint="Введите номер телефона"
+                android:inputType="phone"
+                android:maxLength="12"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/phone_text"
+                style="@style/input" />
+
+            <TextView
+                android:id="@+id/password_text"
+                android:text="Пароль*"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/phone"
+                style="@style/textStandardStyle" />
+
+            <EditText
+                android:id="@+id/password"
+                android:inputType="textPassword"
+                android:maxLength="20"
+                android:hint="Введите пароль"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/password_text"
+                style="@style/input" />
+
+            <!--  <TextView
+                  android:id="@+id/citizenship_text"
+                  android:text="Гражданство*"
+                  app:layout_constraintStart_toStartOf="parent"
+                  app:layout_constraintTop_toBottomOf="@+id/password"
+                  style="@style/textStandardStyle" />
+
+              <Spinner
+                  android:id="@+id/citizenship"
+                  android:layout_width="0dp"
+                  android:layout_height="wrap_content"
+                  android:layout_marginTop="4dp"
+                  android:backgroundTint="@color/colorPrimary"
+                  android:spinnerMode="dialog"
+                  app:layout_constraintEnd_toEndOf="parent"
+                  app:layout_constraintStart_toStartOf="parent"
+                  app:layout_constraintTop_toBottomOf="@+id/citizenship_text" />
+
+              <TextView
+                  android:id="@+id/activity_text"
+                  android:text="Занятость*"
+                  app:layout_constraintStart_toStartOf="parent"
+                  app:layout_constraintTop_toBottomOf="@+id/citizenship"
+                  style="@style/textStandardStyle" />
+
+              <Spinner
+                  android:id="@+id/activity"
+                  android:layout_width="0dp"
+                  android:layout_height="wrap_content"
+                  android:layout_marginTop="4dp"
+                  android:backgroundTint="@color/colorPrimary"
+                  android:spinnerMode="dialog"
+                  app:layout_constraintEnd_toEndOf="parent"
+                  app:layout_constraintStart_toStartOf="parent"
+                  app:layout_constraintTop_toBottomOf="@+id/activity_text" />
+
+
+
+              <TextView
+                  android:visibility="invisible"
+                  android:id="@+id/organization_text"
+                  android:text="Организация*"
+                  app:layout_constraintStart_toStartOf="parent"
+                  app:layout_constraintTop_toBottomOf="@+id/activity"
+                  style="@style/textStandardStyle" />
+
+              <EditText
+                  android:visibility="invisible"
+                  android:id="@+id/organization"
+                  android:hint="Введите название"
+                  android:maxLength="40"
+                  app:layout_constraintEnd_toEndOf="parent"
+                  app:layout_constraintStart_toStartOf="parent"
+                  app:layout_constraintTop_toBottomOf="@+id/organization_text"
+                  style="@style/input" />
+
+              <TextView
+                  android:visibility="invisible"
+                  android:id="@+id/position_text"
+                  android:text="Должность"
+                  app:layout_constraintStart_toStartOf="parent"
+                  app:layout_constraintTop_toBottomOf="@+id/organization"
+                  style="@style/textStandardStyle" />
+
+              <EditText
+                  android:visibility="invisible"
+                  android:id="@+id/position"
+                  android:hint="Введите название"
+                  android:maxLength="40"
+                  app:layout_constraintEnd_toEndOf="parent"
+                  app:layout_constraintStart_toStartOf="parent"
+                  app:layout_constraintTop_toBottomOf="@+id/position_text"
+                  style="@style/input" />
+
+              <TextView
+                  android:visibility="invisible"
+                  android:id="@+id/university_text"
+                  android:text="ВУЗ*"
+                  app:layout_constraintStart_toStartOf="parent"
+                  app:layout_constraintTop_toBottomOf="@id/activity"
+                  style="@style/textStandardStyle" />
+              <EditText
+                  android:visibility="invisible"
+                  android:id="@+id/university"
+                  android:hint="Введите название"
+                  android:maxLength="40"
+                  app:layout_constraintEnd_toEndOf="parent"
+                  app:layout_constraintStart_toStartOf="parent"
+                  app:layout_constraintTop_toBottomOf="@+id/university_text"
+                  style="@style/input" />
+
+              <TextView
+                  android:visibility="invisible"
+                  android:id="@+id/faculty_text"
+                  android:text="Факультет*"
+                  app:layout_constraintStart_toStartOf="parent"
+                  app:layout_constraintTop_toBottomOf="@+id/university"
+                  style="@style/textStandardStyle" />
+
+              <EditText
+                  android:visibility="invisible"
+                  android:id="@+id/faculty"
+                  android:hint="Введите название"
+                  android:maxLength="40"
+                  app:layout_constraintEnd_toEndOf="parent"
+                  app:layout_constraintStart_toStartOf="parent"
+                  app:layout_constraintTop_toBottomOf="@+id/faculty_text"
+                  style="@style/input" />
+
+              <TextView
+                  android:visibility="invisible"
+                  android:id="@+id/specialization_text"
+                  android:text="Специальность"
+                  app:layout_constraintStart_toStartOf="parent"
+                  app:layout_constraintTop_toBottomOf="@+id/faculty"
+                  style="@style/textStandardStyle" />
+
+              <EditText
+                  android:visibility="invisible"
+                  android:id="@+id/specialization"
+                  android:hint="Введите название"
+                  android:maxLength="40"
+                  app:layout_constraintEnd_toEndOf="parent"
+                  app:layout_constraintStart_toStartOf="parent"
+                  app:layout_constraintTop_toBottomOf="@+id/specialization_text"
+                  style="@style/input" />
+    -->
+            <TextView
+                android:id="@+id/city_text"
+                android:text="Город*"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/password"
+                style="@style/textStandardStyle" />
+
+            <EditText
+                android:id="@+id/city"
+                android:hint="Введите город"
+                android:maxLength="40"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/city_text"
+                style="@style/input" />
+
+            <TextView
+                android:id="@+id/organization_text"
+                android:text="Название организации*"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/city"
+                style="@style/textStandardStyle" />
+
+            <EditText
+                android:id="@+id/organization"
+                android:hint="Введите название организации"
+                android:maxLength="40"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/organization_text"
+                style="@style/input" />
+
+            <TextView
+                android:id="@+id/specialization_text"
+                android:text="Сфера деятельности"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/organization"
+                style="@style/textStandardStyle" />
+
+            <EditText
+                android:id="@+id/specialization"
+                android:hint="Введите сферу деятельности"
+                android:maxLength="40"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/specialization_text"
+                style="@style/input" />
+
+            <CheckBox
+                android:id="@+id/agreement"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:clickable="false"
+                android:focusable="false"
+                android:text="Я даю "
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="@dimen/text_size_small"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/specialization" />
+
+            <TextView
+                android:id="@+id/agreement_text"
+                android:text="@string/agreement_string"
+                android:onClick="showAlert"
+                app:layout_constraintStart_toEndOf="@id/agreement"
+                app:layout_constraintTop_toBottomOf="@+id/specialization"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="@dimen/text_size_small"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                app:layout_constraintBaseline_toBaselineOf="@id/agreement" />
+
+            <Button
+                android:id="@+id/register_button"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/padding_standard"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="@dimen/padding_standard"
+                android:layout_marginBottom="@dimen/padding_medium"
+                android:background="@drawable/rounded_button"
+                android:onClick="register"
+                android:text="Зарегистрироваться"
+                android:textColor="#FFFFFF"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/agreement" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

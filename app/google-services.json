@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "340649087128",
+    "firebase_url": "https://russian-test-5e98d.firebaseio.com",
+    "project_id": "russian-test-5e98d",
+    "storage_bucket": "russian-test-5e98d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:340649087128:android:8ac64e768ceddc18d1c0ed",
+        "android_client_info": {
+          "package_name": "com.russiantest.gto"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "340649087128-b1ptvrbqu8gi2bb5lt3qmq7our6ivqf9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDq12psIgo_famCLZ5pMUr0ZN_O5Gagcwo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "340649087128-b1ptvrbqu8gi2bb5lt3qmq7our6ivqf9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

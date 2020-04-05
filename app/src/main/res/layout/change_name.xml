@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/change_back_linear_layout"
+        android:layout_width="43dp"
+        android:layout_height="0dp"
+        android:gravity="center_vertical"
+        android:onClick="backToSettings"
+        app:layout_constraintBottom_toTopOf="@+id/change_line"
+        app:layout_constraintEnd_toStartOf="@id/change_text"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <Button
+            android:id="@+id/change_back"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="11dp"
+            android:layout_height="20dp"
+            android:layout_marginStart="@dimen/padding_medium"
+            android:background="@drawable/back"
+            android:onClick="backToSettings" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/change_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-condensed-medium"
+        android:text="ИМЯ"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="@dimen/text_size_large"
+        app:layout_constraintBottom_toTopOf="@+id/change_line"
+        app:layout_constraintStart_toEndOf="@id/change_back_linear_layout"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/change_logo"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha="0.2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/logo" />
+
+    <View
+        android:id="@+id/change_line"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="@dimen/app_bar_height"
+        android:background="@color/colorPrimaryDark"
+        android:backgroundTint="@color/colorPrimaryDark"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/change_input"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/padding_large"
+        android:backgroundTint="@color/colorPrimary"
+        android:gravity="start"
+        android:hint="Введите ФИО"
+        android:maxLength="50"
+        android:paddingStart="@dimen/padding_standard"
+        android:paddingEnd="@dimen/padding_standard"
+        android:textColor="@color/colorPrimaryDark"
+        android:textColorHint="@color/colorPrimary"
+        android:textSize="@dimen/text_size_regular"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/change_line" />
+</androidx.constraintlayout.widget.ConstraintLayout>

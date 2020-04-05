@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/view_question3_logo"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha="0.1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/logo" />
+
+    <TextView
+        android:id="@+id/view_question3_number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/padding_standard"
+        android:layout_marginTop="@dimen/padding_standard"
+        android:text="1"
+        android:fontFamily="sans-serif-black"
+        android:textSize="@dimen/text_size_large"
+        android:textColor="@color/colorAccent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/view_question3_quantity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/padding_standard"
+        android:text="/4"
+        android:textSize="@dimen/text_size_large"
+        android:textColor="@color/colorAccent"
+        app:layout_constraintStart_toEndOf="@+id/view_question3_number"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/view_question3_text_s"
+        style="@style/textStandardStyle"
+        android:layout_marginTop="@dimen/padding_medium"
+        android:text="Текст вопроса"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view_question3_quantity" />
+
+    <EditText
+        android:id="@+id/view_question3_text"
+        style="@style/input"
+        android:hint="Текст вопроса..."
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view_question3_text_s" />
+
+    <TextView
+        android:id="@+id/view_question3_sentence_s"
+        android:text="Предложение для вопроса"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view_question3_text"
+        style="@style/textStandardStyle" />
+
+    <EditText
+        android:id="@+id/view_question3_sentence"
+        style="@style/input"
+        android:hint="Предложение вопроса..."
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view_question3_sentence_s" />
+
+    <TextView
+        android:id="@+id/view_question3_correct_answer_s"
+        style="@style/textStandardStyle"
+        android:text="Правильный ответ"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view_question3_sentence" />
+
+    <EditText
+        android:id="@+id/view_question3_correct_answer"
+        style="@style/input"
+        android:hint="Правильный ответ..."
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view_question3_correct_answer_s" />
+
+    <Button
+        android:id="@+id/view_question3_save_button"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/padding_standard"
+        android:layout_marginEnd="@dimen/padding_standard"
+        android:layout_marginBottom="@dimen/padding_large"
+        android:background="@drawable/rounded_button"
+        android:text="Применить изменения"
+        android:textColor="#FFFFFF"
+        android:onClick="changeQuestionType3"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
