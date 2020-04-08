@@ -15,6 +15,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -56,21 +57,6 @@ public class TestActivity extends AppCompatActivity {
         noOfQuestions = 0;
         loadTest();
 
-        // чтобы можно было свайпать и перемещаться между вопросами
-        findViewById(android.R.id.content).getRootView().setOnTouchListener(new OnSwipeTouchListener(this) {
-            @Override
-            public void onSwipeLeft() {
-                if (currentQuestion < noOfQuestions - 1)
-                    loadQuestion(questions.get(++currentQuestion));
-            }
-
-            @Override
-            public void onSwipeRight() {
-                if (currentQuestion > 0)
-                    loadQuestion(questions.get(--currentQuestion));
-            }
-        });
-
         Toast.makeText(this, "Листайте влево/вправо, чтобы перемещаться между вопросами", Toast.LENGTH_LONG).show();
     }
 
@@ -99,7 +85,7 @@ public class TestActivity extends AppCompatActivity {
             public void onFinish()
             {
                 Intent finishIntent = new Intent(currentContext, ResultsActivity.class);
-                double result = checkTest();
+                String result = testResults();
                 finishIntent.putExtra("result", result);
                 startActivity(finishIntent);
             }
@@ -131,7 +117,7 @@ public class TestActivity extends AppCompatActivity {
         });
     }
 
-    @SuppressLint("SetTextI18n")
+    @SuppressLint({"SetTextI18n", "ClickableViewAccessibility"})
     public void loadQuestion(Question question) //  загружает на экран новый вопрос
     {
         QuestionType type = question.getType();
@@ -181,6 +167,21 @@ public class TestActivity extends AppCompatActivity {
             o2.setText(options.get(1));
             o3.setText(options.get(2));
             o4.setText(options.get(3));
+
+            ScrollView scrollView = findViewById(R.id.question1_scroll_view);
+            scrollView.setOnTouchListener(new OnSwipeTouchListener(this) {
+                @Override
+                public void onSwipeLeft() {
+                    if (currentQuestion < noOfQuestions - 1)
+                        loadQuestion(questions.get(++currentQuestion));
+                }
+
+                @Override
+                public void onSwipeRight() {
+                    if (currentQuestion > 0)
+                        loadQuestion(questions.get(--currentQuestion));
+                }
+            });
             return;
         }
 
@@ -230,6 +231,21 @@ public class TestActivity extends AppCompatActivity {
             o2.setText(options.get(1));
             o3.setText(options.get(2));
             o4.setText(options.get(3));
+
+            ScrollView scrollView = findViewById(R.id.question2_scroll_view);
+            scrollView.setOnTouchListener(new OnSwipeTouchListener(this) {
+                @Override
+                public void onSwipeLeft() {
+                    if (currentQuestion < noOfQuestions - 1)
+                        loadQuestion(questions.get(++currentQuestion));
+                }
+
+                @Override
+                public void onSwipeRight() {
+                    if (currentQuestion > 0)
+                        loadQuestion(questions.get(--currentQuestion));
+                }
+            });
             return;
         }
 
@@ -265,6 +281,21 @@ public class TestActivity extends AppCompatActivity {
                 public void beforeTextChanged(CharSequence s, int start, int count, int after) {
                 }
                 public void onTextChanged(CharSequence s, int start, int before, int count) {
+                }
+            });
+
+            ScrollView scrollView = findViewById(R.id.question3_scroll_view);
+            scrollView.setOnTouchListener(new OnSwipeTouchListener(this) {
+                @Override
+                public void onSwipeLeft() {
+                    if (currentQuestion < noOfQuestions - 1)
+                        loadQuestion(questions.get(++currentQuestion));
+                }
+
+                @Override
+                public void onSwipeRight() {
+                    if (currentQuestion > 0)
+                        loadQuestion(questions.get(--currentQuestion));
                 }
             });
         }
@@ -352,7 +383,7 @@ public class TestActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int which) {
                         timer.cancel();
                         Intent finishIntent = new Intent(currentContext, ResultsActivity.class);
-                        double result = checkTest();
+                        String result = testResults();
                         finishIntent.putExtra("result", result);
                         startActivity(finishIntent);
                     }
@@ -371,7 +402,7 @@ public class TestActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int which) {
                         timer.cancel();
                         Intent finishIntent = new Intent(currentContext, ResultsActivity.class);
-                        double result = checkTest();
+                        String result = testResults();
                         finishIntent.putExtra("result", result);
                         startActivity(finishIntent);
                     }
@@ -380,13 +411,15 @@ public class TestActivity extends AppCompatActivity {
                 .show();
     }
 
-    private double checkTest()
+    private String testResults()
     {
-        double noOfCorrectAnswers = 0;
+        int points = 0;
+        int totalPoints = 0;
         for (int i = 0; i < noOfQuestions; i++) {
             if (Objects.equals(answers[i], correctAnswers.get(i)))
-                noOfCorrectAnswers++;
+                points += questions.get(i).getPoints();
+            totalPoints += questions.get(i).getPoints();
         }
-        return noOfCorrectAnswers / ((double)noOfQuestions / 100);
+        return points + "/" + totalPoints;
     }
 }

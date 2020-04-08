@@ -16,10 +16,9 @@ public class ResultsActivity extends AppCompatActivity {
         setContentView(R.layout.results);
 
         Intent intent = getIntent();
-        double result = intent.getDoubleExtra("result", 0);
-        TextView resultText = findViewById(R.id.resilts_number);
-        @SuppressLint("DefaultLocale") String finalResult = String.format("%.2f", result) + "%";
-        resultText.setText(finalResult);
+        String result = intent.getStringExtra("result");
+        TextView resultText = findViewById(R.id.results_number);
+        resultText.setText(result);
     }
 
     public void backToMainResults(View view)

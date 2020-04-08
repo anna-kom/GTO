@@ -15,8 +15,8 @@ public class Question {
     private String text; // сам текст вопроса
     private String additionalText; //  доп. текст (для второго и третьего типов)
     private List<String> options; // варианты ответа (для первого и второго типов)
-    private boolean needsInput; // нужно ли вводить свой ответ (только для третьего типа true)
     private String answer;
+    private int points;
 
     public QuestionType getType() {
         return type;
@@ -34,8 +34,8 @@ public class Question {
         return options;
     }
 
-    public boolean isNeedsInput() {
-        return needsInput;
+    public int getPoints() {
+        return points;
     }
 
     public String getAnswer() { return answer; }
@@ -56,8 +56,8 @@ public class Question {
         this.options = options;
     }
 
-    public void setNeedsInput(boolean needsInput) {
-        this.needsInput = needsInput;
+    public void setPoints(int points) {
+        this.points = points;
     }
 
     public void setAnswer(String answer) {

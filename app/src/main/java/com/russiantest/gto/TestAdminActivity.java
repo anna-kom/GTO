@@ -13,8 +13,11 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -55,21 +58,6 @@ public class TestAdminActivity extends AppCompatActivity {
         noOfQuestions = 0;
         loadTest();
 
-        // чтобы можно было свайпать и перемещаться между вопросами
-        findViewById(android.R.id.content).getRootView().setOnTouchListener(new OnSwipeTouchListener(this) {
-            @Override
-            public void onSwipeLeft() {
-                if (currentQuestion < noOfQuestions - 1)
-                    loadQuestion(questions.get(++currentQuestion));
-            }
-
-            @Override
-            public void onSwipeRight() {
-                if (currentQuestion > 0)
-                    loadQuestion(questions.get(--currentQuestion));
-            }
-        });
-
         Toast.makeText(this, "Листайте влево/вправо, чтобы перемещаться между вопросами", Toast.LENGTH_LONG).show();
     }
 
@@ -94,7 +82,7 @@ public class TestAdminActivity extends AppCompatActivity {
         });
     }
 
-    @SuppressLint("SetTextI18n")
+    @SuppressLint({"SetTextI18n", "ClickableViewAccessibility"})
     public void loadQuestion(Question question) //  загружает на экран новый вопрос
     {
         QuestionType type = question.getType();
@@ -106,6 +94,8 @@ public class TestAdminActivity extends AppCompatActivity {
             number.setText("" + currentNumber);
             TextView numberOfQuestions = findViewById(R.id.view_question1_quantity);
             numberOfQuestions.setText("\\" + noOfQuestions);
+            EditText points = findViewById(R.id.view_question1_points);
+            points.setText("" + question.getPoints());
             EditText text = findViewById(R.id.view_question1_text);
             text.setText(question.getText());
             EditText o1 = findViewById(R.id.view_question1_option1);
@@ -120,6 +110,16 @@ public class TestAdminActivity extends AppCompatActivity {
             EditText answer = findViewById(R.id.view_question1_correct_answer);
             answer.setText(question.getAnswer());
 
+            points.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) { }
+                @Override
+                public void afterTextChanged(Editable s) {
+                    question1Changed = true;
+                }
+            });
             text.addTextChangedListener(new TextWatcher() {
                 @Override
                 public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
@@ -180,6 +180,21 @@ public class TestAdminActivity extends AppCompatActivity {
                     question1Changed = true;
                 }
             });
+
+            ScrollView scrollView = findViewById(R.id.view_question1_scroll_view);
+            scrollView.setOnTouchListener(new OnSwipeTouchListener(this) {
+                @Override
+                public void onSwipeLeft() {
+                    if (currentQuestion < noOfQuestions - 1)
+                        loadQuestion(questions.get(++currentQuestion));
+                }
+
+                @Override
+                public void onSwipeRight() {
+                    if (currentQuestion > 0)
+                        loadQuestion(questions.get(--currentQuestion));
+                }
+            });
             return;
         }
 
@@ -191,6 +206,8 @@ public class TestAdminActivity extends AppCompatActivity {
             number.setText("" + currentNumber);
             TextView numberOfQuestions = findViewById(R.id.view_question2_quantity);
             numberOfQuestions.setText("\\" + noOfQuestions);
+            EditText points = findViewById(R.id.view_question2_points);
+            points.setText("" + question.getPoints());
             EditText text = findViewById(R.id.view_question2_text);
             text.setText(question.getText());
             EditText additionalText = findViewById(R.id.view_question2_sentence);
@@ -207,6 +224,16 @@ public class TestAdminActivity extends AppCompatActivity {
             EditText answer = findViewById(R.id.view_question2_correct_answer);
             answer.setText(question.getAnswer());
 
+            points.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) { }
+                @Override
+                public void afterTextChanged(Editable s) {
+                    question2Changed = true;
+                }
+            });
             text.addTextChangedListener(new TextWatcher() {
                 @Override
                 public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
@@ -277,6 +304,21 @@ public class TestAdminActivity extends AppCompatActivity {
                     question2Changed = true;
                 }
             });
+            ScrollView scrollView = findViewById(R.id.view_question2_scroll_view);
+            scrollView.setOnTouchListener(new OnSwipeTouchListener(this) {
+                @Override
+                public void onSwipeLeft() {
+                    if (currentQuestion < noOfQuestions - 1)
+                        loadQuestion(questions.get(++currentQuestion));
+                }
+
+                @Override
+                public void onSwipeRight() {
+                    if (currentQuestion > 0)
+                        loadQuestion(questions.get(--currentQuestion));
+                }
+            });
+            //scrollView.setOnTouchListener(new OnSwipeTouchListenerTest());
             return;
         }
 
@@ -288,6 +330,8 @@ public class TestAdminActivity extends AppCompatActivity {
             number.setText("" + currentNumber);
             TextView numberOfQuestions = findViewById(R.id.view_question3_quantity);
             numberOfQuestions.setText("\\" + noOfQuestions);
+            EditText points = findViewById(R.id.view_question3_points);
+            points.setText("" + question.getPoints());
             EditText text = findViewById(R.id.view_question3_text);
             text.setText(question.getText());
             EditText additionalText = findViewById(R.id.view_question3_sentence);
@@ -295,6 +339,16 @@ public class TestAdminActivity extends AppCompatActivity {
             EditText answer = findViewById(R.id.view_question3_correct_answer);
             answer.setText(question.getAnswer());
 
+            points.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) { }
+                @Override
+                public void afterTextChanged(Editable s) {
+                    question3Changed = true;
+                }
+            });
             text.addTextChangedListener(new TextWatcher() {
                 @Override
                 public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
@@ -325,6 +379,21 @@ public class TestAdminActivity extends AppCompatActivity {
                     question3Changed = true;
                 }
             });
+            ScrollView scrollView = findViewById(R.id.view_question3_scroll_view);
+            scrollView.setOnTouchListener(new OnSwipeTouchListener(this) {
+                @Override
+                public void onSwipeLeft() {
+                    if (currentQuestion < noOfQuestions - 1)
+                        loadQuestion(questions.get(++currentQuestion));
+                }
+
+                @Override
+                public void onSwipeRight() {
+                    if (currentQuestion > 0)
+                        loadQuestion(questions.get(--currentQuestion));
+                }
+            });
+            //scrollView.setOnTouchListener(new OnSwipeTouchListenerTest());
         }
     }
 
@@ -333,37 +402,42 @@ public class TestAdminActivity extends AppCompatActivity {
         if (question1Changed) {
             int currNumber = currentQuestion + 1;
             String number = "" + currNumber;
-            EditText textEditText = findViewById(R.id.view_question1_text);
-            String text = textEditText.getText().toString();
-            if (!text.isEmpty()) {
-                EditText o1EditText = findViewById(R.id.view_question1_option1);
-                EditText o2EditText = findViewById(R.id.view_question1_option2);
-                EditText o3EditText = findViewById(R.id.view_question1_option3);
-                EditText o4EditText = findViewById(R.id.view_question1_option4);
-                String o1 = o1EditText.getText().toString();
-                String o2 = o2EditText.getText().toString();
-                String o3 = o3EditText.getText().toString();
-                String o4 = o4EditText.getText().toString();
-                if (!o1.isEmpty() && !o2.isEmpty() && !o3.isEmpty() && !o4.isEmpty()) {
-                    List<String> options = Arrays.asList(o1, o2, o3, o4);
-                    EditText answerEditText = findViewById(R.id.view_question1_correct_answer);
-                    String answer = answerEditText.getText().toString();
-                    if (!answer.isEmpty()) {
-                        Question question = new Question();
-                        question.setAdditionalText("");
-                        question.setAnswer(answer);
-                        question.setNeedsInput(false);
-                        question.setOptions(options);
-                        question.setText(text);
-                        question.setType(QuestionType.Standard);
-                        databaseReference.child(number).setValue(question);
-                        Toast.makeText(this, "Вопрос изменен!", Toast.LENGTH_SHORT).show();
+            EditText pointsEditText = findViewById(R.id.view_question1_points);
+            String points = pointsEditText.getText().toString();
+            if (!points.isEmpty()) {
+                EditText textEditText = findViewById(R.id.view_question1_text);
+                String text = textEditText.getText().toString();
+                if (!text.isEmpty()) {
+                    EditText o1EditText = findViewById(R.id.view_question1_option1);
+                    EditText o2EditText = findViewById(R.id.view_question1_option2);
+                    EditText o3EditText = findViewById(R.id.view_question1_option3);
+                    EditText o4EditText = findViewById(R.id.view_question1_option4);
+                    String o1 = o1EditText.getText().toString();
+                    String o2 = o2EditText.getText().toString();
+                    String o3 = o3EditText.getText().toString();
+                    String o4 = o4EditText.getText().toString();
+                    if (!o1.isEmpty() && !o2.isEmpty() && !o3.isEmpty() && !o4.isEmpty()) {
+                        List<String> options = Arrays.asList(o1, o2, o3, o4);
+                        EditText answerEditText = findViewById(R.id.view_question1_correct_answer);
+                        String answer = answerEditText.getText().toString();
+                        if (!answer.isEmpty()) {
+                            Question question = new Question();
+                            question.setAdditionalText("");
+                            question.setAnswer(answer);
+                            question.setPoints(Integer.parseInt(points));
+                            question.setOptions(options);
+                            question.setText(text);
+                            question.setType(QuestionType.Standard);
+                            databaseReference.child(number).setValue(question);
+                            Toast.makeText(this, "Вопрос изменен!", Toast.LENGTH_SHORT).show();
+                        } else
+                            Toast.makeText(this, "Введите ответ", Toast.LENGTH_SHORT).show();
                     } else
-                        Toast.makeText(this, "Введите ответ", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, "Введите все варианты ответа", Toast.LENGTH_SHORT).show();
                 } else
-                    Toast.makeText(this, "Введите все варианты ответа", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Введите текст вопроса", Toast.LENGTH_SHORT).show();
             } else
-                Toast.makeText(this, "Введите текст вопроса", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Введите баллы", Toast.LENGTH_SHORT).show();
         } else
             Toast.makeText(this, "Нет изменений", Toast.LENGTH_SHORT).show();
     }
@@ -373,42 +447,47 @@ public class TestAdminActivity extends AppCompatActivity {
         if (question2Changed) {
             int currNumber = currentQuestion + 1;
             String number = "" + currNumber;
-            EditText textEditText = findViewById(R.id.view_question2_text);
-            String text = textEditText.getText().toString();
-            if (!text.isEmpty()) {
-                EditText additionalTextEditText = findViewById(R.id.view_question2_sentence);
-                String additionalText = additionalTextEditText.getText().toString();
-                if (!additionalText.isEmpty()) {
-                    EditText o1EditText = findViewById(R.id.view_question2_option1);
-                    EditText o2EditText = findViewById(R.id.view_question2_option2);
-                    EditText o3EditText = findViewById(R.id.view_question2_option3);
-                    EditText o4EditText = findViewById(R.id.view_question2_option4);
-                    String o1 = o1EditText.getText().toString();
-                    String o2 = o2EditText.getText().toString();
-                    String o3 = o3EditText.getText().toString();
-                    String o4 = o4EditText.getText().toString();
-                    if (!o1.isEmpty() && !o2.isEmpty() && !o3.isEmpty() && !o4.isEmpty()) {
-                        List<String> options = Arrays.asList(o1, o2, o3, o4);
-                        EditText answerEditText = findViewById(R.id.view_question2_correct_answer);
-                        String answer = answerEditText.getText().toString();
-                        if (!answer.isEmpty()) {
-                            Question question = new Question();
-                            question.setAdditionalText(additionalText);
-                            question.setAnswer(answer);
-                            question.setNeedsInput(false);
-                            question.setOptions(options);
-                            question.setText(text);
-                            question.setType(QuestionType.Commas);
-                            databaseReference.child(number).setValue(question);
-                            Toast.makeText(this, "Вопрос изменен!", Toast.LENGTH_SHORT).show();
+            EditText pointsEditText = findViewById(R.id.view_question2_points);
+            String points = pointsEditText.getText().toString();
+            if (!points.isEmpty()) {
+                EditText textEditText = findViewById(R.id.view_question2_text);
+                String text = textEditText.getText().toString();
+                if (!text.isEmpty()) {
+                    EditText additionalTextEditText = findViewById(R.id.view_question2_sentence);
+                    String additionalText = additionalTextEditText.getText().toString();
+                    if (!additionalText.isEmpty()) {
+                        EditText o1EditText = findViewById(R.id.view_question2_option1);
+                        EditText o2EditText = findViewById(R.id.view_question2_option2);
+                        EditText o3EditText = findViewById(R.id.view_question2_option3);
+                        EditText o4EditText = findViewById(R.id.view_question2_option4);
+                        String o1 = o1EditText.getText().toString();
+                        String o2 = o2EditText.getText().toString();
+                        String o3 = o3EditText.getText().toString();
+                        String o4 = o4EditText.getText().toString();
+                        if (!o1.isEmpty() && !o2.isEmpty() && !o3.isEmpty() && !o4.isEmpty()) {
+                            List<String> options = Arrays.asList(o1, o2, o3, o4);
+                            EditText answerEditText = findViewById(R.id.view_question2_correct_answer);
+                            String answer = answerEditText.getText().toString();
+                            if (!answer.isEmpty()) {
+                                Question question = new Question();
+                                question.setAdditionalText(additionalText);
+                                question.setAnswer(answer);
+                                question.setPoints(Integer.parseInt(points));
+                                question.setOptions(options);
+                                question.setText(text);
+                                question.setType(QuestionType.Commas);
+                                databaseReference.child(number).setValue(question);
+                                Toast.makeText(this, "Вопрос изменен!", Toast.LENGTH_SHORT).show();
+                            } else
+                                Toast.makeText(this, "Введите ответ", Toast.LENGTH_SHORT).show();
                         } else
-                            Toast.makeText(this, "Введите ответ", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(this, "Введите все варианты ответа", Toast.LENGTH_SHORT).show();
                     } else
-                        Toast.makeText(this, "Введите все варианты ответа", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, "Введите предложение вопроса", Toast.LENGTH_SHORT).show();
                 } else
-                    Toast.makeText(this, "Введите предложение вопроса", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Введите текст вопроса", Toast.LENGTH_SHORT).show();
             } else
-                Toast.makeText(this, "Введите текст вопроса", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Введите баллы", Toast.LENGTH_SHORT).show();
         } else
             Toast.makeText(this, "Нет изменений", Toast.LENGTH_SHORT).show();
     }
@@ -418,30 +497,35 @@ public class TestAdminActivity extends AppCompatActivity {
         if (question3Changed) {
             int currNumber = currentQuestion + 1;
             String number = "" + currNumber;
-            EditText textEditText = findViewById(R.id.view_question3_text);
-            String text = textEditText.getText().toString();
-            if (!text.isEmpty()) {
-                EditText additionalTextEditText = findViewById(R.id.view_question3_sentence);
-                String additionalText = additionalTextEditText.getText().toString();
-                if (!additionalText.isEmpty()) {
-                    EditText answerEditText = findViewById(R.id.view_question3_correct_answer);
-                    String answer = answerEditText.getText().toString();
-                    if (!answer.isEmpty()) {
-                        Question question = new Question();
-                        question.setAdditionalText(additionalText);
-                        question.setAnswer(answer);
-                        question.setNeedsInput(true);
-                        question.setOptions(null);
-                        question.setText(text);
-                        question.setType(QuestionType.Input);
-                        databaseReference.child(number).setValue(question);
-                        Toast.makeText(this, "Вопрос изменен!", Toast.LENGTH_SHORT).show();
+            EditText pointsEditText = findViewById(R.id.view_question3_points);
+            String points = pointsEditText.getText().toString();
+            if (!points.isEmpty()) {
+                EditText textEditText = findViewById(R.id.view_question3_text);
+                String text = textEditText.getText().toString();
+                if (!text.isEmpty()) {
+                    EditText additionalTextEditText = findViewById(R.id.view_question3_sentence);
+                    String additionalText = additionalTextEditText.getText().toString();
+                    if (!additionalText.isEmpty()) {
+                        EditText answerEditText = findViewById(R.id.view_question3_correct_answer);
+                        String answer = answerEditText.getText().toString();
+                        if (!answer.isEmpty()) {
+                            Question question = new Question();
+                            question.setAdditionalText(additionalText);
+                            question.setAnswer(answer);
+                            question.setPoints(Integer.parseInt(points));
+                            question.setOptions(null);
+                            question.setText(text);
+                            question.setType(QuestionType.Input);
+                            databaseReference.child(number).setValue(question);
+                            Toast.makeText(this, "Вопрос изменен!", Toast.LENGTH_SHORT).show();
+                        } else
+                            Toast.makeText(this, "Введите ответ", Toast.LENGTH_SHORT).show();
                     } else
-                        Toast.makeText(this, "Введите ответ", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, "Введите предложение вопроса", Toast.LENGTH_SHORT).show();
                 } else
-                    Toast.makeText(this, "Введите предложение вопроса", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Введите текст вопроса", Toast.LENGTH_SHORT).show();
             } else
-                Toast.makeText(this, "Введите текст вопроса", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Введите баллы", Toast.LENGTH_SHORT).show();
         } else
             Toast.makeText(this, "Нет изменений", Toast.LENGTH_SHORT).show();
     }
@@ -453,3 +537,5 @@ public class TestAdminActivity extends AppCompatActivity {
         startActivity(finishIntent);
     }
 }
+
+
