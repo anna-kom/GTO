@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -33,7 +34,7 @@
         android:text="НАСТРОЙКИ"
         android:textColor="@color/colorPrimaryDark"
         android:textSize="@dimen/text_size_large"
-        app:layout_constraintBottom_toTopOf="@+id/settings_linear_layout1"
+        app:layout_constraintBottom_toTopOf="@+id/settings_line1"
         app:layout_constraintStart_toEndOf="@id/settings_back_linear_layout"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -59,40 +60,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <LinearLayout
-        android:id="@+id/settings_linear_layout1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/app_bar_height"
-        android:onClick="editName"
-        android:orientation="horizontal"
-        android:paddingTop="@dimen/padding_small"
-        android:paddingBottom="@dimen/padding_small"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <TextView
-            android:id="@+id/settings_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/padding_medium"
-            android:gravity="start"
-            android:onClick="editName"
-            android:text="Имя"
-            android:textColor="@color/colorPrimaryDark"
-            android:textSize="@dimen/text_size_large" />
-    </LinearLayout>
-
-    <View
-        android:id="@+id/settings_line2"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/colorPrimaryDark"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/settings_linear_layout1" />
-
 
     <!-- Об организаторах -->
     <LinearLayout
@@ -105,7 +72,7 @@
         android:paddingBottom="@dimen/padding_small"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/settings_line2">
+        app:layout_constraintTop_toBottomOf="@+id/settings_line1">
 
         <TextView
             android:id="@+id/settings_about"

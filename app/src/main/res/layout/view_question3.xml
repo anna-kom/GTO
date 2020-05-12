@@ -1,137 +1,173 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/view_question3_scroll_view"
+    android:id="@+id/view_question3_constraint_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fillViewport="true"
-    android:paddingBottom="@dimen/padding_standard">
+    android:layout_height="match_parent">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <Button
+        android:id="@+id/view_question3_save_button"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/padding_standard"
+        android:layout_marginEnd="@dimen/padding_standard"
+        android:layout_marginBottom="@dimen/padding_standard"
+        android:background="@drawable/orange_rounded_button"
+        android:onClick="changeQuestionType3"
+        android:text="Применить изменения"
+        android:textColor="@color/colorAccent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <EditText
+        android:id="@+id/view_question3_points"
+        style="@style/input"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/padding_small"
+        android:layout_marginEnd="@dimen/padding_standard"
+        android:hint="Баллы..."
+        android:imeOptions="actionNext"
+        android:singleLine="true"
+        android:inputType="number"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/view_question3_number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/padding_standard"
+        android:layout_marginTop="@dimen/padding_standard"
+        android:fontFamily="sans-serif-black"
+        android:text="1"
+        android:textColor="@color/colorAccent"
+        android:textSize="@dimen/text_size_large"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/view_question3_quantity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/padding_standard"
+        android:text="/4"
+        android:textColor="@color/colorAccent"
+        android:textSize="@dimen/text_size_large"
+        app:layout_constraintStart_toEndOf="@+id/view_question3_number"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/view_question3_points_s"
+        style="@style/textStandardStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/padding_standard"
+        android:layout_marginEnd="@dimen/padding_small"
+        android:text="Баллы"
+        app:layout_constraintEnd_toStartOf="@+id/view_question3_points"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/view_question3_left"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:onClick="adminPrevQuestion"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/arrow_left" />
+
+    <ImageView
+        android:id="@+id/view_question3_right"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:onClick="adminNextQuestion"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/arrow_right" />
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="0dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="80dp"
+        android:layout_marginEnd="50dp"
+        android:layout_marginBottom="@dimen/padding_standard"
+        app:layout_constraintBottom_toTopOf="@+id/view_question3_save_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <Button
-            android:id="@+id/view_question3_save_button"
-            style="@style/Widget.AppCompat.Button.Borderless"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/padding_standard"
-            android:layout_marginTop="60dp"
-            android:layout_marginEnd="@dimen/padding_standard"
-            android:background="@drawable/rounded_button"
-            android:onClick="changeQuestionType3"
-            android:text="Применить изменения"
-            android:textColor="#FFFFFF"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/view_question3_correct_answer" />
-
-        <EditText
-            android:id="@+id/view_question3_points"
-            style="@style/input"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/padding_small"
-            android:layout_marginEnd="@dimen/padding_standard"
-            android:ems="10"
-            android:hint="Баллы..."
-            android:inputType="number"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <EditText
-            android:id="@+id/view_question3_text"
-            style="@style/input"
-            android:hint="Текст вопроса..."
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/view_question3_text_s" />
-
-        <EditText
-            android:id="@+id/view_question3_sentence"
-            style="@style/input"
-            android:hint="Предложение вопроса..."
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/view_question3_sentence_s" />
-
-        <EditText
-            android:id="@+id/view_question3_correct_answer"
-            style="@style/input"
-            android:hint="Правильный ответ..."
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/view_question3_correct_answer_s" />
-
-        <ImageView
-            android:id="@+id/view_question3_logo"
+        <ScrollView
+            android:id="@+id/view_question3_scroll_view"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:alpha="0.1"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/logo" />
-
-        <TextView
-            android:id="@+id/view_question3_number"
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/padding_standard"
-            android:layout_marginTop="@dimen/padding_standard"
-            android:fontFamily="sans-serif-black"
-            android:text="1"
-            android:textColor="@color/colorAccent"
-            android:textSize="@dimen/text_size_large"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_centerVertical="true"
+            android:scrollbars="none">
 
-        <TextView
-            android:id="@+id/view_question3_quantity"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/padding_standard"
-            android:text="/4"
-            android:textColor="@color/colorAccent"
-            android:textSize="@dimen/text_size_large"
-            app:layout_constraintStart_toEndOf="@+id/view_question3_number"
-            app:layout_constraintTop_toTopOf="parent" />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/view_question3_points_s"
-            style="@style/textStandardStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/padding_standard"
-            android:layout_marginEnd="@dimen/padding_small"
-            android:text="Баллы"
-            app:layout_constraintEnd_toStartOf="@+id/view_question3_points"
-            app:layout_constraintTop_toTopOf="parent" />
+                <EditText
+                    android:id="@+id/view_question3_text"
+                    style="@style/input"
+                    android:hint="Текст вопроса..."
+                    android:imeOptions="actionNext"
+                    android:singleLine="true"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/view_question3_text_s" />
 
-        <TextView
-            android:id="@+id/view_question3_text_s"
-            style="@style/textStandardStyle"
-            android:layout_marginTop="@dimen/padding_medium"
-            android:text="Текст вопроса"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/view_question3_quantity" />
+                <EditText
+                    android:id="@+id/view_question3_sentence"
+                    style="@style/input"
+                    android:hint="Предложение вопроса..."
+                    android:imeOptions="actionNext"
+                    android:singleLine="true"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/view_question3_sentence_s" />
 
-        <TextView
-            android:id="@+id/view_question3_sentence_s"
-            style="@style/textStandardStyle"
-            android:text="Предложение для вопроса"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/view_question3_text" />
+                <EditText
+                    android:id="@+id/view_question3_correct_answer"
+                    style="@style/input"
+                    android:hint="Правильный ответ..."
+                    android:imeOptions="actionDone"
+                    android:singleLine="true"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/view_question3_correct_answer_s" />
 
-        <TextView
-            android:id="@+id/view_question3_correct_answer_s"
-            style="@style/textStandardStyle"
-            android:text="Правильный ответ"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/view_question3_sentence" />
+                <TextView
+                    android:id="@+id/view_question3_text_s"
+                    style="@style/textStandardStyle"
+                    android:text="Текст вопроса"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+                <TextView
+                    android:id="@+id/view_question3_sentence_s"
+                    style="@style/textStandardStyle"
+                    android:text="Предложение для вопроса"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/view_question3_text" />
 
-</ScrollView>
+                <TextView
+                    android:id="@+id/view_question3_correct_answer_s"
+                    style="@style/textStandardStyle"
+                    android:text="Правильный ответ"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/view_question3_sentence" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </ScrollView>
+
+    </RelativeLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

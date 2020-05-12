@@ -67,6 +67,8 @@
         android:backgroundTint="@color/colorPrimary"
         android:gravity="start"
         android:hint="Введите ФИО"
+        android:imeOptions="actionDone"
+        android:singleLine="true"
         android:maxLength="50"
         android:paddingStart="@dimen/padding_standard"
         android:paddingEnd="@dimen/padding_standard"

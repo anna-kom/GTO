@@ -4,31 +4,42 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import org.json.JSONObject;
+
 import java.lang.invoke.ConstantCallSite;
+import java.net.InetAddress;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
 
-    public static final String SHARED_PREFS = "sharedPrefs"; // Строка для обращния к SharedPreferences
-    public static final String USER_IS_LOGGED_IN = "loggedIn"; // Строка для запоминания вошел пользователь в аккаунт или нет
-    public static final String USER_DATA = "Userdata"; // Строка для передачи почты и пароля
-    public static final String USER_NAME = "Username"; // Строка для запоминания имени пользователя
-    public static final String USER_PASSWORD = "UserPassword"; // Строка для запоминания пароля пользователя
-    public static final String USER_EMAIL = "UserEmail"; // Строка для запоминания почты
-    public static final String USER_EXITED_ACCOUNT = "UserExited"; // Строка для запонимания вышел пользователь из аккаунта или нет
     public static final String TEST_NAME = "testName";
 
     private static DatabaseReference databaseReference;
@@ -38,35 +49,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // проверяем, вошел ли пользователь через LoginActivity
-        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
-        Intent thisIntent = getIntent();
-        String user = thisIntent.getStringExtra(USER_DATA);
-        if (user != null) // сработает только если мы пришли из LoginActivity, а дальше запоминаем данные пользователя
-        {
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putBoolean(USER_IS_LOGGED_IN, true);
-            editor.putString(USER_EMAIL, user.split(" ")[0]);
-            editor.putString(USER_PASSWORD, user.split(" ")[1]);
-            editor.apply();
-        }
-
-        // проверяем, что пользователь вошел в акаунт и не выходил из него
-        boolean isLoggedIn = sharedPreferences.getBoolean(USER_IS_LOGGED_IN, false);
-        boolean exited = sharedPreferences.getBoolean(USER_EXITED_ACCOUNT, false);
-        if (!isLoggedIn || exited) // если пользователь не вошел, запускаем LoginActivity
-        {
-            Intent loginIntent = new Intent(this, LoginActivity.class);
-            startActivity(loginIntent);
-        }
-
-        String email = sharedPreferences.getString(USER_EMAIL, "");
-        String password = sharedPreferences.getString(USER_PASSWORD, "");
-        if (check_admin(email, password))
-        {
-            Intent adminIntent = new Intent(this, AdminActivity.class);
-            startActivity(adminIntent);
-        }
+        if (!isInternetAvailable())
+            Toast.makeText(this, "Проверьте свое подключение к интернету", Toast.LENGTH_SHORT).show();
 
         databaseReference = FirebaseDatabase.getInstance().getReference();
         LinearLayout layout = findViewById(R.id.main_linear_layout);
@@ -114,7 +98,9 @@ public class MainActivity extends AppCompatActivity {
         startActivity(homeIntent);
     }
 
-    public boolean check_admin(String email, String password) {
-        return email.equals("admin@mail.com") && password.equals("admin");
+    public boolean isInternetAvailable() {
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        return cm.getActiveNetworkInfo() != null && cm.getActiveNetworkInfo().isConnected();
     }
+
 }

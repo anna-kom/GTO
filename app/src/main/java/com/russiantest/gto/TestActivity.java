@@ -2,6 +2,9 @@ package com.russiantest.gto;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
@@ -9,11 +12,14 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -25,6 +31,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -38,8 +45,8 @@ public class TestActivity extends AppCompatActivity {
     private static String[] answers; // массив ответов на каждый вопрос
     private static ArrayList<String> correctAnswers;
     private static CountDownTimer timer; // чтобы запускать таймер на тест
-    private static String timeLeft; // запонимаем сколько времени осталось, чтобы потом отображать в вопросе
-    private static String testName;
+    private static String timeLeft;
+    private static QuestionType currentType;
 
     private static DatabaseReference databaseReference;
 
@@ -47,8 +54,11 @@ public class TestActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        if (!isInternetAvailable())
+            Toast.makeText(this, "Проверьте свое подключение к интернету", Toast.LENGTH_SHORT).show();
+
         Intent intent = getIntent();
-        testName = intent.getStringExtra(MainActivity.TEST_NAME);
+        String testName = intent.getStringExtra(MainActivity.TEST_NAME);
         questions = new ArrayList<>();
         correctAnswers = new ArrayList<>();
         currentQuestion = 0;
@@ -56,8 +66,6 @@ public class TestActivity extends AppCompatActivity {
         databaseReference = FirebaseDatabase.getInstance().getReference().child(testName);
         noOfQuestions = 0;
         loadTest();
-
-        Toast.makeText(this, "Листайте влево/вправо, чтобы перемещаться между вопросами", Toast.LENGTH_LONG).show();
     }
 
     public void startTimer()
@@ -67,17 +75,21 @@ public class TestActivity extends AppCompatActivity {
         timer = new CountDownTimer(1800000, 1000) {
             public void onTick(long millisUntilFinished) {
                 TextView time;
-                // у каждого типа вопроса свой xml файл, поэтому в разных местах нужно обновлять таймер. проверяем на каком типе вопроса мы сейчас находимся и обновляем для него таймер
-                if (questions.get(currentQuestion).getType() == QuestionType.Standard)
-                    time = findViewById(R.id.question1_timer);
-                else if (questions.get(currentQuestion).getType() == QuestionType.Commas)
-                    time = findViewById(R.id.question2_timer);
-                else
-                    time = findViewById(R.id.question3_timer);
                 @SuppressLint("DefaultLocale") String tl = String.format("%02d:%02d",
                                 TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished),
                                 TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) -
                                 TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished)));
+                switch (currentType)
+                {
+                    case Standard:
+                        time = findViewById(R.id.question1_timer);
+                        break;
+                    case Commas:
+                        time = findViewById(R.id.question2_timer);
+                        break;
+                    default:
+                        time = findViewById(R.id.question3_timer);
+                }
                 timeLeft = tl;
                 time.setText(tl);
             }
@@ -104,35 +116,31 @@ public class TestActivity extends AppCompatActivity {
                     correctAnswers.add(Objects.requireNonNull(question).getAnswer());
                     noOfQuestions++;
                 }
-
                 answers = new String[noOfQuestions];
+                currentType = questions.get(0).getType();
                 loadQuestion(questions.get(0));
                 startTimer();
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
+            public void onCancelled(@NonNull DatabaseError databaseError) {}
         });
     }
 
     @SuppressLint({"SetTextI18n", "ClickableViewAccessibility"})
     public void loadQuestion(Question question) //  загружает на экран новый вопрос
     {
-        QuestionType type = question.getType();
-        if (type == QuestionType.Standard) //  если это первый тип, загружаем xml файл для вопроса первого типа
+        if (currentType == QuestionType.Standard) //  если это первый тип, загружаем xml файл для вопроса первого типа
         {
             setContentView(R.layout.test_question1);
-            TextView time = findViewById(R.id.question1_timer);
-            time.setText(timeLeft);
             TextView number = findViewById(R.id.question1_number);
             int currentNumber = currentQuestion + 1;
             number.setText("" + currentNumber);
+            TextView tl = findViewById(R.id.question1_timer);
+            tl.setText(timeLeft);
             TextView numberOfQuestions = findViewById(R.id.question1_quantity);
-            numberOfQuestions.setText("\\" + noOfQuestions);
+            numberOfQuestions.setText("/" + noOfQuestions);
 
-            // если мы уже отвечали на этот вопрос и возвращаемся к нему, то помечаем предыдущий ответ
             String currentAnswer = answers[currentQuestion];
             TextView o1 = findViewById(R.id.question1_option1);
             TextView o2 = findViewById(R.id.question1_option2);
@@ -161,40 +169,26 @@ public class TestActivity extends AppCompatActivity {
             }
             // текст самого вопроса и варианты ответов
             TextView text = findViewById(R.id.question1_text);
-            text.setText(question.getText());
-            List<String> options = question.getOptions();
+            text.setText(questions.get(currentQuestion).getText());
+            List<String> options = questions.get(currentQuestion).getOptions();
             o1.setText(options.get(0));
             o2.setText(options.get(1));
             o3.setText(options.get(2));
             o4.setText(options.get(3));
 
-            ScrollView scrollView = findViewById(R.id.question1_scroll_view);
-            scrollView.setOnTouchListener(new OnSwipeTouchListener(this) {
-                @Override
-                public void onSwipeLeft() {
-                    if (currentQuestion < noOfQuestions - 1)
-                        loadQuestion(questions.get(++currentQuestion));
-                }
-
-                @Override
-                public void onSwipeRight() {
-                    if (currentQuestion > 0)
-                        loadQuestion(questions.get(--currentQuestion));
-                }
-            });
             return;
         }
 
-        if (type == QuestionType.Commas) // все точно так же, как и в предыдущем, только для другого xml файла
+        if (currentType == QuestionType.Commas) // все точно так же, как и в предыдущем, только для другого xml файла
         {
             setContentView(R.layout.test_question2);
-            TextView time = findViewById(R.id.question2_timer);
-            time.setText(timeLeft);
             TextView number = findViewById(R.id.question2_number);
             int currentNumber = currentQuestion + 1;
             number.setText("" + currentNumber);
             TextView numberOfQuestions = findViewById(R.id.question2_quantity);
-            numberOfQuestions.setText("\\" + noOfQuestions);
+            numberOfQuestions.setText("/" + noOfQuestions);
+            TextView tl = findViewById(R.id.question2_timer);
+            tl.setText(timeLeft);
 
             String currentAnswer = answers[currentQuestion];
             TextView o1 = findViewById(R.id.question2_option1);
@@ -223,52 +217,38 @@ public class TestActivity extends AppCompatActivity {
                 }
             }
             TextView text = findViewById(R.id.question2_text);
-            text.setText(question.getText());
+            text.setText(questions.get(currentQuestion).getText());
             TextView additionalText = findViewById(R.id.question2_additional_text);
-            additionalText.setText(question.getAdditionalText());
-            List<String> options = question.getOptions();
+            additionalText.setText(questions.get(currentQuestion).getAdditionalText());
+            List<String> options = questions.get(currentQuestion).getOptions();
             o1.setText(options.get(0));
             o2.setText(options.get(1));
             o3.setText(options.get(2));
             o4.setText(options.get(3));
 
-            ScrollView scrollView = findViewById(R.id.question2_scroll_view);
-            scrollView.setOnTouchListener(new OnSwipeTouchListener(this) {
-                @Override
-                public void onSwipeLeft() {
-                    if (currentQuestion < noOfQuestions - 1)
-                        loadQuestion(questions.get(++currentQuestion));
-                }
-
-                @Override
-                public void onSwipeRight() {
-                    if (currentQuestion > 0)
-                        loadQuestion(questions.get(--currentQuestion));
-                }
-            });
             return;
         }
 
-        if (type == QuestionType.Input) //  тоже точно так же
+        if (currentType == QuestionType.Input) //  тоже точно так же
         {
             setContentView(R.layout.test_question3);
-            TextView time = findViewById(R.id.question3_timer);
-            time.setText(timeLeft);
             TextView number = findViewById(R.id.question3_number);
-            final int currentNumber = currentQuestion + 1;
+            int currentNumber = currentQuestion + 1;
             number.setText("" + currentNumber);
             TextView numberOfQuestions = findViewById(R.id.question3_quantity);
-            numberOfQuestions.setText("\\" + noOfQuestions);
+            numberOfQuestions.setText("/" + noOfQuestions);
+            TextView tl = findViewById(R.id.question3_timer);
+            tl.setText(timeLeft);
 
-            final EditText answer = findViewById(R.id.question3_answer);
             String currentAnswer = answers[currentQuestion];
+            EditText answer = findViewById(R.id.question3_answer);
             if (currentAnswer != null && !currentAnswer.isEmpty()) {
                 answer.setText(currentAnswer);
             }
             TextView text = findViewById(R.id.question3_text);
-            text.setText(question.getText());
+            text.setText(questions.get(currentQuestion).getText());
             TextView additionalText = findViewById(R.id.question3_additional_text);
-            additionalText.setText(question.getAdditionalText());
+            additionalText.setText(questions.get(currentQuestion).getAdditionalText());
             // добавляем это чтобы следить что тестируемый печатает и запоминать новый ответ
             answer.addTextChangedListener(new TextWatcher() {
                 public void afterTextChanged(Editable s) {
@@ -278,26 +258,30 @@ public class TestActivity extends AppCompatActivity {
                         answers[currentQuestion] = "";
                 }
 
-                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                }
-                public void onTextChanged(CharSequence s, int start, int before, int count) {
-                }
-            });
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
-            ScrollView scrollView = findViewById(R.id.question3_scroll_view);
-            scrollView.setOnTouchListener(new OnSwipeTouchListener(this) {
-                @Override
-                public void onSwipeLeft() {
-                    if (currentQuestion < noOfQuestions - 1)
-                        loadQuestion(questions.get(++currentQuestion));
-                }
-
-                @Override
-                public void onSwipeRight() {
-                    if (currentQuestion > 0)
-                        loadQuestion(questions.get(--currentQuestion));
-                }
+                public void onTextChanged(CharSequence s, int start, int before, int count) {}
             });
+        }
+    }
+
+    public void nextQuestion(View view)
+    {
+        if (currentQuestion < noOfQuestions - 1)
+        {
+            ++currentQuestion;
+            currentType = questions.get(currentQuestion).getType();
+            loadQuestion(questions.get(currentQuestion));
+        }
+    }
+
+    public void prevQuestion(View view)
+    {
+        if (currentQuestion > 0)
+        {
+            --currentQuestion;
+            currentType = questions.get(currentQuestion).getType();
+            loadQuestion(questions.get(currentQuestion));
         }
     }
 
@@ -421,5 +405,10 @@ public class TestActivity extends AppCompatActivity {
             totalPoints += questions.get(i).getPoints();
         }
         return points + "/" + totalPoints;
+    }
+
+    public boolean isInternetAvailable() {
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        return cm.getActiveNetworkInfo() != null && cm.getActiveNetworkInfo().isConnected();
     }
 }

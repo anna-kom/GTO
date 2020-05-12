@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
@@ -21,6 +22,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.net.InetAddress;
 import java.util.Objects;
 
 public class ViewTestsActivity extends AppCompatActivity {
@@ -33,6 +35,9 @@ public class ViewTestsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.view_tests);
+
+        if (!isInternetAvailable())
+            Toast.makeText(this, "Проверьте свое подключение к интернету", Toast.LENGTH_SHORT).show();
 
         databaseReference = FirebaseDatabase.getInstance().getReference();
         LinearLayout layout = findViewById(R.id.view_linear_layout);
@@ -78,13 +83,17 @@ public class ViewTestsActivity extends AppCompatActivity {
                         .setPositiveButton("Да", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 questionDialog.dismiss();
-                                if (Objects.equals(testName, "Основной тест"))
-                                    Toast.makeText(currentContext, "Не удаляйте основной тест, пожалуйста", Toast.LENGTH_SHORT).show();
+                                if (!isInternetAvailable())
+                                    Toast.makeText(currentContext, "Проверьте свое подключение к интернету", Toast.LENGTH_SHORT).show();
                                 else {
-                                    databaseReference.child(testName).removeValue();
-                                    Toast.makeText(currentContext, "Вы удалили " + testName, Toast.LENGTH_SHORT).show();
+                                    if (Objects.equals(testName, "Основной тест"))
+                                        Toast.makeText(currentContext, "Не удаляйте основной тест, пожалуйста", Toast.LENGTH_SHORT).show();
+                                    else {
+                                        databaseReference.child(testName).removeValue();
+                                        Toast.makeText(currentContext, "Вы удалили " + testName, Toast.LENGTH_SHORT).show();
+                                    }
+                                    recreate();
                                 }
-                                recreate();
                             }
                         })
                         .setNegativeButton("Нет", null)
@@ -103,5 +112,10 @@ public class ViewTestsActivity extends AppCompatActivity {
     public void onBackPressed() {
         Intent adminIntent = new Intent(this, AdminActivity.class);
         startActivity(adminIntent);
+    }
+
+    public boolean isInternetAvailable() {
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        return cm.getActiveNetworkInfo() != null && cm.getActiveNetworkInfo().isConnected();
     }
 }

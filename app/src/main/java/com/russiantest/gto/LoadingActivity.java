@@ -15,12 +15,12 @@ public class LoadingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.loading_screen);
 
-        // чтобы при загрузке отображался логотип, я потом запускалась MainActivity
+        // чтобы при загрузке отображался логотип, я потом запускалась LoginActivity
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                Intent mainIntent = new Intent(LoadingActivity.this, MainActivity.class);
-                LoadingActivity.this.startActivity(mainIntent);
+                Intent loginIntent = new Intent(LoadingActivity.this, LoginActivity.class);
+                LoadingActivity.this.startActivity(loginIntent);
                 LoadingActivity.this.finish();
             }
         }, SPLASH_DISPLAY_LENGTH);

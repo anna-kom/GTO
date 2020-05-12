@@ -11,6 +11,11 @@ import android.view.View;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class AdminActivity extends AppCompatActivity {
+
+    private static final String LOGIN_SHARED_PREFS = "loginSharedPrefs";
+    private static final String LOGGED_IN = "userIsLoggedIn";
+    private static final String IS_ADMIN = "userIsAnAdmin";
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.admin_panel);
@@ -18,6 +23,7 @@ public class AdminActivity extends AppCompatActivity {
 
     public void createTest(View view) {
         Intent formQuestionIntent = new Intent(this, BuildingTestActivity.class);
+        formQuestionIntent.putExtra("newTest", true);
         startActivity(formQuestionIntent);
     }
 
@@ -35,14 +41,9 @@ public class AdminActivity extends AppCompatActivity {
                 // сбрасываем всю инфу о пользователе и делаем USER_EXITED_ACCOUNT true. запускаем LoginActivity
                 .setPositiveButton("Да", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        SharedPreferences sharedPreferences = getSharedPreferences(MainActivity.SHARED_PREFS, MODE_PRIVATE);
-                        SharedPreferences.Editor editor = sharedPreferences.edit();
-                        editor.putBoolean(MainActivity.USER_IS_LOGGED_IN, false);
-                        editor.putString(MainActivity.USER_NAME, "");
-                        editor.putString(MainActivity.USER_EMAIL, "");
-                        editor.putString(MainActivity.USER_PASSWORD, "");
-                        editor.putBoolean(MainActivity.USER_EXITED_ACCOUNT, true);
-                        editor.apply();
+                        SharedPreferences sharedPreferences = getSharedPreferences(LOGIN_SHARED_PREFS, MODE_PRIVATE);
+                        sharedPreferences.edit().putBoolean(LOGGED_IN, false).apply();
+                        sharedPreferences.edit().putBoolean(IS_ADMIN, false).apply();
                         Intent exitIntent = new Intent(currentContext, LoginActivity.class);
                         startActivity(exitIntent);
                     }

@@ -8,35 +8,71 @@
         android:id="@+id/addition_test_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/padding_medium"
+        android:layout_marginStart="@dimen/padding_standard"
+        android:layout_marginTop="@dimen/padding_standard"
+        android:layout_marginEnd="@dimen/padding_standard"
         android:backgroundTint="@color/colorPrimary"
-        android:hint="Введите название теста"
+        android:hint="Название теста"
+        android:imeOptions="actionDone"
+        android:singleLine="true"
         android:inputType="text"
         android:maxLength="50"
-        android:paddingStart="@dimen/padding_standard"
         android:textColor="@color/colorPrimaryDark"
         android:textColorHint="@color/colorPrimary"
         android:textSize="@dimen/text_size_large"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/addition_plus_layout"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/add_question"
-        style="@style/Widget.AppCompat.Button.Borderless"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/padding_standard"
-        android:layout_marginTop="@dimen/padding_medium"
+    <LinearLayout
+        android:id="@+id/addition_plus_layout"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="@dimen/padding_standard"
         android:layout_marginEnd="@dimen/padding_standard"
-        android:background="@drawable/rounded_button"
+        android:background="@drawable/orange_solid_rounded_button"
         android:onClick="startForm"
-        android:text="+ Добавить вопрос"
-        android:textColor="#FFFFFF"
+        android:orientation="horizontal"
+        android:padding="8dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="startForm"
+            app:srcCompat="@drawable/plus" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginStart="@dimen/padding_standard"
+        android:layout_marginTop="@dimen/padding_standard"
+        android:layout_marginEnd="@dimen/padding_standard"
+        android:layout_marginBottom="@dimen/padding_standard"
+        app:layout_constraintBottom_toTopOf="@+id/save_button"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/addition_test_name" />
+        app:layout_constraintTop_toBottomOf="@+id/addition_test_name">
+
+        <ScrollView
+            android:id="@+id/addition_scroll_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="false"
+            android:background="@drawable/stroke_background"
+            android:scrollbars="none">
+
+            <LinearLayout
+                android:id="@+id/addition_linear_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" />
+        </ScrollView>
+
+    </RelativeLayout>
 
     <Button
         android:id="@+id/save_button"
@@ -45,8 +81,8 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/padding_standard"
         android:layout_marginEnd="@dimen/padding_standard"
-        android:layout_marginBottom="@dimen/padding_medium"
-        android:background="@drawable/rounded_button"
+        android:layout_marginBottom="@dimen/padding_standard"
+        android:background="@drawable/orange_solid_rounded_button"
         android:onClick="saveTest"
         android:text="Сохранить тест"
         android:textColor="#FFFFFF"
