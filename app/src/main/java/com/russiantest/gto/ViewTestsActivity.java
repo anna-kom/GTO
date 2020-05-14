@@ -30,6 +30,7 @@ public class ViewTestsActivity extends AppCompatActivity {
     private static DatabaseReference databaseReference;
     private static String testName;
     private static AlertDialog questionDialog;
+    private static final String TEST_NAME = "testName";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,8 +73,9 @@ public class ViewTestsActivity extends AppCompatActivity {
     public void adminTestOptions(View view) {
         switch (view.getId()) {
             case R.id.admin_test_options_change:
-                Intent testIntent = new Intent(this, TestAdminActivity.class);
-                testIntent.putExtra(MainActivity.TEST_NAME, testName);
+                Intent testIntent = new Intent(this, ChangeTestActivity.class);
+                testIntent.putExtra(TEST_NAME, testName);
+                testIntent.putExtra("newTest", true);
                 startActivity(testIntent);
                 break;
             case R.id.admin_test_options_delete:

@@ -73,7 +73,8 @@ public class BuildingTestActivity extends AppCompatActivity {
         {
             View question = getLayoutInflater().inflate(R.layout.addition_question_number, null);
             TextView text = question.findViewById(R.id.addition_question_text);
-            text.setText("Вопрос " + i);
+            String qText = "" + i + ". " + sharedPreferences.getString("" + i + "text", "");
+            text.setText(qText);
             linearLayout.addView(question);
         }
         boolean shownToast = sharedPreferences.getBoolean(HAS_SHOWN_TOAST_MESSAGE, false);
@@ -185,7 +186,7 @@ public class BuildingTestActivity extends AppCompatActivity {
     public void showQuestion(View view)
     {
         TextView text = view.findViewById(R.id.addition_question_text);
-        int number = Integer.parseInt(text.getText().toString().split(" ")[1]);
+        int number = Integer.parseInt(text.getText().toString().split("[.]")[0]);
         SharedPreferences sharedPreferences = getSharedPreferences(TEST_SHARED_PREFS, MODE_PRIVATE);
         String typeKey = number + "type";
         Intent showIntent = new Intent(this, QuestionBuildingActivity.class);

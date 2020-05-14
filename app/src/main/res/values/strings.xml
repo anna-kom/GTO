@@ -2,6 +2,7 @@
 
     <string name="app_name">ГТО</string>
     <string name="forgotPassword"><u>Забыли пароль?</u></string>
+    <string name="listOfQuestions"><u>Перейти к вопросу...</u></string>
     <string name="noAccount">Нет аккаунта? <u>Зарегистрироваться</u></string>
     <string name="hasAnAccount">Уже есть аккаунт? <u>Войти</u></string>
     <string name="exampleQuestion1">В одном из приведённых ниже слов допущена ошибка в постановке ударения: НЕВЕРНО выделена буква, обозначающая ударный гласный звук. Укажите это слово.</string>

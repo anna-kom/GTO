@@ -19,6 +19,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.regex.Pattern;
 
 public class QuestionBuildingActivity extends AppCompatActivity {
 
@@ -186,38 +187,40 @@ public class QuestionBuildingActivity extends AppCompatActivity {
                     String o3 = o3EditText.getText().toString();
                     String o4 = o4EditText.getText().toString();
                     if (!o1.isEmpty() && !o2.isEmpty() && !o3.isEmpty() && !o4.isEmpty()) {
-                        List<String> options = Arrays.asList(o1, o2, o3, o4);
                         EditText answerEditText = findViewById(R.id.question_type1_correct_answer);
                         String answer = answerEditText.getText().toString();
                         if (!answer.isEmpty()) {
-                            SharedPreferences sharedPreferences = getSharedPreferences(TEST_SHARED_PREFS, MODE_PRIVATE);
-                            SharedPreferences.Editor editor = sharedPreferences.edit();
-                            editor.putInt(NUMBER_OF_QUESTIONS, quantity);
-                            String additionalTextKey = currentNumber + "additionalText";
-                            editor.putString(additionalTextKey, "");
-                            String answerKey = currentNumber + "answer";
-                            editor.putString(answerKey, answer);
-                            String pointsKey = currentNumber + "points";
-                            editor.putInt(pointsKey, Integer.parseInt(points));
-                            String option1Key = currentNumber + "option1";
-                            editor.putString(option1Key, o1);
-                            String option2Key = currentNumber + "option2";
-                            editor.putString(option2Key, o2);
-                            String option3Key = currentNumber + "option3";
-                            editor.putString(option3Key, o3);
-                            String option4Key = currentNumber + "option4";
-                            editor.putString(option4Key, o4);
-                            String textKey = currentNumber + "text";
-                            editor.putString(textKey, text);
-                            String typeKey = currentNumber + "type";
-                            editor.putInt(typeKey, 0);
-                            editor.apply();
-                            if (existingQuestion)
-                                Toast.makeText(this, "Вопрос изменен!", Toast.LENGTH_SHORT).show();
-                            else
-                                Toast.makeText(this, "Вопрос добавлен!", Toast.LENGTH_SHORT).show();
-                            Intent buildingTestIntent = new Intent(this, BuildingTestActivity.class);
-                            startActivity(buildingTestIntent);
+                            if (isCorrectAnswer(answer)) {
+                                SharedPreferences sharedPreferences = getSharedPreferences(TEST_SHARED_PREFS, MODE_PRIVATE);
+                                SharedPreferences.Editor editor = sharedPreferences.edit();
+                                editor.putInt(NUMBER_OF_QUESTIONS, quantity);
+                                String additionalTextKey = currentNumber + "additionalText";
+                                editor.putString(additionalTextKey, "");
+                                String answerKey = currentNumber + "answer";
+                                editor.putString(answerKey, answer);
+                                String pointsKey = currentNumber + "points";
+                                editor.putInt(pointsKey, Integer.parseInt(points));
+                                String option1Key = currentNumber + "option1";
+                                editor.putString(option1Key, o1);
+                                String option2Key = currentNumber + "option2";
+                                editor.putString(option2Key, o2);
+                                String option3Key = currentNumber + "option3";
+                                editor.putString(option3Key, o3);
+                                String option4Key = currentNumber + "option4";
+                                editor.putString(option4Key, o4);
+                                String textKey = currentNumber + "text";
+                                editor.putString(textKey, text);
+                                String typeKey = currentNumber + "type";
+                                editor.putInt(typeKey, 0);
+                                editor.apply();
+                                if (existingQuestion)
+                                    Toast.makeText(this, "Вопрос изменен!", Toast.LENGTH_SHORT).show();
+                                else
+                                    Toast.makeText(this, "Вопрос добавлен!", Toast.LENGTH_SHORT).show();
+                                Intent buildingTestIntent = new Intent(this, BuildingTestActivity.class);
+                                startActivity(buildingTestIntent);
+                            } else
+                                Toast.makeText(this, "Ответ должен быть цифрой от 1 до 4", Toast.LENGTH_SHORT).show();
                         } else
                             Toast.makeText(this, "Введите ответ", Toast.LENGTH_SHORT).show();
                     } else
@@ -250,38 +253,40 @@ public class QuestionBuildingActivity extends AppCompatActivity {
                         String o3 = o3EditText.getText().toString();
                         String o4 = o4EditText.getText().toString();
                         if (!o1.isEmpty() && !o2.isEmpty() && !o3.isEmpty() && !o4.isEmpty()) {
-                            List<String> options = Arrays.asList(o1, o2, o3, o4);
                             EditText answerEditText = findViewById(R.id.question_type2_correct_answer);
                             String answer = answerEditText.getText().toString();
                             if (!answer.isEmpty()) {
-                                SharedPreferences sharedPreferences = getSharedPreferences(TEST_SHARED_PREFS, MODE_PRIVATE);
-                                SharedPreferences.Editor editor = sharedPreferences.edit();
-                                editor.putInt(NUMBER_OF_QUESTIONS, quantity);
-                                String additionalTextKey = currentNumber + "additionalText";
-                                editor.putString(additionalTextKey, additionalText);
-                                String answerKey = currentNumber + "answer";
-                                editor.putString(answerKey, answer);
-                                String pointsKey = currentNumber + "points";
-                                editor.putInt(pointsKey, Integer.parseInt(points));
-                                String option1Key = currentNumber + "option1";
-                                editor.putString(option1Key, o1);
-                                String option2Key = currentNumber + "option2";
-                                editor.putString(option2Key, o2);
-                                String option3Key = currentNumber + "option3";
-                                editor.putString(option3Key, o3);
-                                String option4Key = currentNumber + "option4";
-                                editor.putString(option4Key, o4);
-                                String textKey = currentNumber + "text";
-                                editor.putString(textKey, text);
-                                String typeKey = currentNumber + "type";
-                                editor.putInt(typeKey, 1);
-                                editor.apply();
-                                if (existingQuestion)
-                                    Toast.makeText(this, "Вопрос изменен!", Toast.LENGTH_SHORT).show();
-                                else
-                                    Toast.makeText(this, "Вопрос добавлен!", Toast.LENGTH_SHORT).show();
-                                Intent buildingTestIntent = new Intent(this, BuildingTestActivity.class);
-                                startActivity(buildingTestIntent);
+                                if (isCorrectAnswer(answer)) {
+                                    SharedPreferences sharedPreferences = getSharedPreferences(TEST_SHARED_PREFS, MODE_PRIVATE);
+                                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                                    editor.putInt(NUMBER_OF_QUESTIONS, quantity);
+                                    String additionalTextKey = currentNumber + "additionalText";
+                                    editor.putString(additionalTextKey, additionalText);
+                                    String answerKey = currentNumber + "answer";
+                                    editor.putString(answerKey, answer);
+                                    String pointsKey = currentNumber + "points";
+                                    editor.putInt(pointsKey, Integer.parseInt(points));
+                                    String option1Key = currentNumber + "option1";
+                                    editor.putString(option1Key, o1);
+                                    String option2Key = currentNumber + "option2";
+                                    editor.putString(option2Key, o2);
+                                    String option3Key = currentNumber + "option3";
+                                    editor.putString(option3Key, o3);
+                                    String option4Key = currentNumber + "option4";
+                                    editor.putString(option4Key, o4);
+                                    String textKey = currentNumber + "text";
+                                    editor.putString(textKey, text);
+                                    String typeKey = currentNumber + "type";
+                                    editor.putInt(typeKey, 1);
+                                    editor.apply();
+                                    if (existingQuestion)
+                                        Toast.makeText(this, "Вопрос изменен!", Toast.LENGTH_SHORT).show();
+                                    else
+                                        Toast.makeText(this, "Вопрос добавлен!", Toast.LENGTH_SHORT).show();
+                                    Intent buildingTestIntent = new Intent(this, BuildingTestActivity.class);
+                                    startActivity(buildingTestIntent);
+                                } else
+                                    Toast.makeText(this, "Ответ должен быть цифрой от 1 до 4", Toast.LENGTH_SHORT).show();
                             } else
                                 Toast.makeText(this, "Введите ответ", Toast.LENGTH_SHORT).show();
                         } else
@@ -398,5 +403,13 @@ public class QuestionBuildingActivity extends AppCompatActivity {
                     .setNegativeButton("Нет", null)
                     .show();
         }
+    }
+
+    private boolean isCorrectAnswer(String answer) {
+        String answerRegex = "\\b[1-4]\\b";
+        Pattern pat = Pattern.compile(answerRegex);
+        if (answer == null)
+            return false;
+        return pat.matcher(answer).matches();
     }
 }

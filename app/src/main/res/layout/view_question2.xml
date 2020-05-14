@@ -15,7 +15,7 @@
         android:layout_marginEnd="@dimen/padding_standard"
         android:layout_marginBottom="@dimen/padding_standard"
         android:background="@drawable/orange_rounded_button"
-        android:onClick="changeQuestionType2"
+        android:onClick="changeQuestion2"
         android:text="Применить изменения"
         android:textColor="@color/colorAccent"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -71,32 +71,10 @@
         app:layout_constraintEnd_toStartOf="@+id/view_question2_points"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
-        android:id="@+id/view_question2_left"
-        android:layout_width="50dp"
-        android:layout_height="wrap_content"
-        android:onClick="adminPrevQuestion"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/arrow_left" />
-
-    <ImageView
-        android:id="@+id/view_question2_right"
-        android:layout_width="50dp"
-        android:layout_height="wrap_content"
-        android:onClick="adminNextQuestion"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/arrow_right" />
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginStart="50dp"
         android:layout_marginTop="80dp"
-        android:layout_marginEnd="50dp"
         android:layout_marginBottom="@dimen/padding_standard"
         app:layout_constraintBottom_toTopOf="@+id/view_question2_save_button"
         app:layout_constraintEnd_toEndOf="parent"
@@ -128,8 +106,6 @@
                     android:id="@+id/view_question2_sentence"
                     style="@style/input"
                     android:hint="Предложение вопроса..."
-                    android:imeOptions="actionNext"
-                    android:singleLine="true"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/view_question2_sentence_s" />
@@ -138,8 +114,6 @@
                     android:id="@+id/view_question2_option1"
                     style="@style/input"
                     android:hint="Вариант 1..."
-                    android:imeOptions="actionNext"
-                    android:singleLine="true"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/view_question2_options" />
@@ -148,8 +122,6 @@
                     android:id="@+id/view_question2_option2"
                     style="@style/input"
                     android:hint="Вариант 2..."
-                    android:imeOptions="actionNext"
-                    android:singleLine="true"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/view_question2_option1" />
@@ -158,8 +130,6 @@
                     android:id="@+id/view_question2_option3"
                     style="@style/input"
                     android:hint="Вариант 3..."
-                    android:imeOptions="actionNext"
-                    android:singleLine="true"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/view_question2_option2" />
@@ -168,8 +138,6 @@
                     android:id="@+id/view_question2_option4"
                     style="@style/input"
                     android:hint="Вариант 4..."
-                    android:imeOptions="actionNext"
-                    android:singleLine="true"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/view_question2_option3" />
@@ -179,8 +147,8 @@
                     style="@style/input"
                     android:hint="Номер..."
                     android:imeOptions="actionDone"
-                    android:singleLine="true"
                     android:inputType="numberDecimal"
+                    android:singleLine="true"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/view_question2_correct_answer_s" />

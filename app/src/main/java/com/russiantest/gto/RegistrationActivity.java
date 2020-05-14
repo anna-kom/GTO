@@ -84,8 +84,6 @@ public class RegistrationActivity extends AppCompatActivity {
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus)
                 {
-                    //InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-                    //imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
                     setDate(v);
                 }
             }
@@ -297,6 +295,9 @@ public class RegistrationActivity extends AppCompatActivity {
         } else if (birthDate.getText().toString().isEmpty()) {
             Toast.makeText(this, "Введите дату рождения", Toast.LENGTH_SHORT).show();
             return false;
+        } else if (!isCorrectYear(dateAndTime)) {
+            Toast.makeText(this, "Выбранный год не соответствует требованиям", Toast.LENGTH_SHORT).show();
+            return false;
         } else if (password.getText().toString().isEmpty()) {
             Toast.makeText(this, "Введите пароль", Toast.LENGTH_SHORT).show();
             return false;
@@ -318,8 +319,6 @@ public class RegistrationActivity extends AppCompatActivity {
     }
 
     public void setDate(View v) { //показывает диалог выбора даты
-        //InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-        //imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
         new DatePickerDialog(RegistrationActivity.this, d,
                 dateAndTime.get(Calendar.YEAR),
                 dateAndTime.get(Calendar.MONTH),
@@ -340,9 +339,6 @@ public class RegistrationActivity extends AppCompatActivity {
         birthDate.setText(DateUtils.formatDateTime(RegistrationActivity.this,
                 dateAndTime.getTimeInMillis(),
                 DateUtils.FORMAT_SHOW_YEAR));
-        //InputMethodManager imm = (InputMethodManager)getSystemService(
-        //        Context.INPUT_METHOD_SERVICE);
-        //imm.hideSoftInputFromWindow(birthDate.getWindowToken(), 0);
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
         try {
             userBirthDate = format.format(dateAndTime.getTime());
@@ -351,8 +347,6 @@ public class RegistrationActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         email.requestFocus();
-        //InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        //imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
     }
 
     public void makeButtonOrange()
@@ -398,5 +392,16 @@ public class RegistrationActivity extends AppCompatActivity {
         if (email == null)
             return false;
         return pat.matcher(email).matches();
+    }
+
+    private boolean isCorrectYear(Calendar calendar) {
+        Calendar now = Calendar.getInstance();
+        int currentYear = now.get(Calendar.YEAR);
+        int chosenYear = calendar.get(Calendar.YEAR);
+        if ((currentYear - chosenYear) > 100)
+            return false;
+        if ((currentYear - chosenYear) < 14)
+            return false;
+        return true;
     }
 }

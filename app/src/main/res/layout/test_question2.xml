@@ -44,11 +44,29 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
+        android:id="@+id/question2_list_of_questions"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:onClick="selectQuestion"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:text="@string/listOfQuestions"
+        android:textColor="@color/colorAccent"
+        android:textSize="@dimen/text_size_regular"
+        app:layout_constraintEnd_toStartOf="@+id/question2_timer"
+        app:layout_constraintStart_toEndOf="@+id/question2_quantity"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
         android:id="@+id/question2_finish"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/padding_standard"
+        android:layout_marginBottom="10dp"
         android:onClick="finishTest"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
         android:text="@string/finishTest"
         android:textColor="@color/colorAccent"
         android:textSize="@dimen/text_size_regular"

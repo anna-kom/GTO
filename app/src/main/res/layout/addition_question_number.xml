@@ -22,9 +22,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/padding_standard"
+            android:layout_marginEnd="@dimen/padding_standard"
             android:gravity="start"
+            android:maxLines="1"
             android:text="Вопрос 1"
-            android:textColor="@color/colorPrimary"
+            android:textColor="@color/colorPrimaryDark"
             android:textSize="@dimen/text_size_large" />
     </LinearLayout>
 

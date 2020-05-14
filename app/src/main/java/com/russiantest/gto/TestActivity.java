@@ -2,12 +2,10 @@ package com.russiantest.gto;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.ItemTouchHelper;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.app.Service;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -15,13 +13,15 @@ import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.IBinder;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.ScrollView;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,7 +31,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -54,11 +53,12 @@ public class TestActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        Intent intent = getIntent();
+        String testName = intent.getStringExtra(MainActivity.TEST_NAME);
+
         if (!isInternetAvailable())
             Toast.makeText(this, "Проверьте свое подключение к интернету", Toast.LENGTH_SHORT).show();
 
-        Intent intent = getIntent();
-        String testName = intent.getStringExtra(MainActivity.TEST_NAME);
         questions = new ArrayList<>();
         correctAnswers = new ArrayList<>();
         currentQuestion = 0;
@@ -118,7 +118,7 @@ public class TestActivity extends AppCompatActivity {
                 }
                 answers = new String[noOfQuestions];
                 currentType = questions.get(0).getType();
-                loadQuestion(questions.get(0));
+                loadQuestion();
                 startTimer();
             }
 
@@ -128,11 +128,21 @@ public class TestActivity extends AppCompatActivity {
     }
 
     @SuppressLint({"SetTextI18n", "ClickableViewAccessibility"})
-    public void loadQuestion(Question question) //  загружает на экран новый вопрос
+    public void loadQuestion() //  загружает на экран новый вопрос
     {
         if (currentType == QuestionType.Standard) //  если это первый тип, загружаем xml файл для вопроса первого типа
         {
             setContentView(R.layout.test_question1);
+            if (currentQuestion == 0)
+            {
+                ImageView left = findViewById(R.id.question1_left);
+                left.setVisibility(View.GONE);
+            }
+            if (currentQuestion == (noOfQuestions - 1))
+            {
+                ImageView right = findViewById(R.id.question1_right);
+                right.setVisibility(View.GONE);
+            }
             TextView number = findViewById(R.id.question1_number);
             int currentNumber = currentQuestion + 1;
             number.setText("" + currentNumber);
@@ -175,13 +185,21 @@ public class TestActivity extends AppCompatActivity {
             o2.setText(options.get(1));
             o3.setText(options.get(2));
             o4.setText(options.get(3));
-
-            return;
         }
 
-        if (currentType == QuestionType.Commas) // все точно так же, как и в предыдущем, только для другого xml файла
+        else if (currentType == QuestionType.Commas) // все точно так же, как и в предыдущем, только для другого xml файла
         {
             setContentView(R.layout.test_question2);
+            if (currentQuestion == 0)
+            {
+                ImageView left = findViewById(R.id.question2_left);
+                left.setVisibility(View.GONE);
+            }
+            if (currentQuestion == (noOfQuestions - 1))
+            {
+                ImageView right = findViewById(R.id.question2_right);
+                right.setVisibility(View.GONE);
+            }
             TextView number = findViewById(R.id.question2_number);
             int currentNumber = currentQuestion + 1;
             number.setText("" + currentNumber);
@@ -225,13 +243,21 @@ public class TestActivity extends AppCompatActivity {
             o2.setText(options.get(1));
             o3.setText(options.get(2));
             o4.setText(options.get(3));
-
-            return;
         }
 
-        if (currentType == QuestionType.Input) //  тоже точно так же
+        else if (currentType == QuestionType.Input) //  тоже точно так же
         {
             setContentView(R.layout.test_question3);
+            if (currentQuestion == 0)
+            {
+                ImageView left = findViewById(R.id.question3_left);
+                left.setVisibility(View.GONE);
+            }
+            if (currentQuestion == (noOfQuestions - 1))
+            {
+                ImageView right = findViewById(R.id.question3_right);
+                right.setVisibility(View.GONE);
+            }
             TextView number = findViewById(R.id.question3_number);
             int currentNumber = currentQuestion + 1;
             number.setText("" + currentNumber);
@@ -271,7 +297,7 @@ public class TestActivity extends AppCompatActivity {
         {
             ++currentQuestion;
             currentType = questions.get(currentQuestion).getType();
-            loadQuestion(questions.get(currentQuestion));
+            loadQuestion();
         }
     }
 
@@ -281,7 +307,7 @@ public class TestActivity extends AppCompatActivity {
         {
             --currentQuestion;
             currentType = questions.get(currentQuestion).getType();
-            loadQuestion(questions.get(currentQuestion));
+            loadQuestion();
         }
     }
 
@@ -410,5 +436,57 @@ public class TestActivity extends AppCompatActivity {
     public boolean isInternetAvailable() {
         ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         return cm.getActiveNetworkInfo() != null && cm.getActiveNetworkInfo().isConnected();
+    }
+
+    public void selectQuestion(View view)
+    {
+        MyAdapter adapter = new MyAdapter(this, R.layout.select_question, answers);
+        new AlertDialog.Builder(this)
+                .setAdapter(adapter, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        currentQuestion = which;
+                        currentType = questions.get(which).getType();
+                        loadQuestion();
+                    }
+                }).create().show();
+    }
+
+    public class MyAdapter extends ArrayAdapter {
+
+        public MyAdapter(Context context, int textViewResourceId, String[] objects) {
+            super(context, textViewResourceId, objects);
+        }
+
+        public View getCustomView(int position, View convertView, ViewGroup parent) {
+            LayoutInflater inflater = getLayoutInflater();
+            View layout = inflater.inflate(R.layout.select_question, parent, false);
+            TextView text = layout.findViewById(R.id.spinner_question_text);
+            int currIndex = position + 1;
+            String questionText = "" + currIndex + ". " + questions.get(position).getText();
+            text.setText(questionText);
+            ImageView img = layout.findViewById(R.id.spinner_question_checkmark);
+            String currAnswer = answers[position];
+            if (currAnswer != null && !currAnswer.isEmpty())
+                img.setVisibility(View.VISIBLE);
+            return layout;
+        }
+
+        @Override
+        public int getCount() {
+            return questions.size();
+        }
+
+        // It gets a View that displays in the drop down popup the data at the specified position
+        @Override
+        public View getDropDownView(int position, View convertView, ViewGroup parent) {
+            return getCustomView(position, convertView, parent);
+        }
+
+        // It gets a View that displays the data at the specified position
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            return getCustomView(position, convertView, parent);
+        }
     }
 }

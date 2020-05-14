@@ -44,6 +44,22 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
+        android:id="@+id/question3_list_of_questions"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:onClick="selectQuestion"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:text="@string/listOfQuestions"
+        android:textColor="@color/colorAccent"
+        android:textSize="@dimen/text_size_regular"
+        app:layout_constraintEnd_toStartOf="@+id/question3_timer"
+        app:layout_constraintStart_toEndOf="@+id/question3_quantity"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
         android:id="@+id/question3_finish"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -108,8 +124,7 @@
                     android:layout_marginTop="@dimen/padding_large"
                     android:layout_marginEnd="12dp"
                     android:backgroundTint="@color/colorPrimaryDark"
-                    android:inputType="textPersonName"
-                    android:maxLength="100"
+                    android:inputType="text"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/question3_additional_text" />
