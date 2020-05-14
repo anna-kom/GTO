@@ -30,6 +30,7 @@ public class ChangeQuestionActivity extends AppCompatActivity {
     private static int currentNumber;
     private static int quantity;
     private static boolean questionChanged;
+    private static boolean existingQuestion;
     private static Button button;
 
     TextWatcher textWatcher = new TextWatcher() {
@@ -51,7 +52,8 @@ public class ChangeQuestionActivity extends AppCompatActivity {
         sharedPreferences = getSharedPreferences(TEST_SHARED_PREFS, MODE_PRIVATE);
         int type = intent.getIntExtra("type", 0);
         currentNumber = intent.getIntExtra("number", 1);
-        quantity = sharedPreferences.getInt(NUMBER_OF_QUESTIONS, 1);
+        quantity = intent.getIntExtra("quantity", 1);
+        existingQuestion = intent.getBooleanExtra("existingQuestion", false);
         questionChanged = false;
         String additionalTextKey = currentNumber + "additionalText";
         String answerKey = currentNumber + "answer";
@@ -69,27 +71,31 @@ public class ChangeQuestionActivity extends AppCompatActivity {
             questionQuantity = findViewById(R.id.view_question1_quantity);
             questionQuantity.setText("/" + quantity);
             button = findViewById(R.id.view_question1_save_button);
-            EditText answerEditText = findViewById(R.id.view_question1_correct_answer);
-            EditText pointsEditText = findViewById(R.id.view_question1_points);
-            EditText option1EditText = findViewById(R.id.view_question1_option1);
-            EditText option2EditText = findViewById(R.id.view_question1_option2);
-            EditText option3EditText = findViewById(R.id.view_question1_option3);
-            EditText option4EditText = findViewById(R.id.view_question1_option4);
-            EditText textEditText = findViewById(R.id.view_question1_text);
-            answerEditText.setText(sharedPreferences.getString(answerKey, ""));
-            pointsEditText.setText("" + sharedPreferences.getInt(pointsKey, 0));
-            option1EditText.setText(sharedPreferences.getString(option1Key, ""));
-            option2EditText.setText(sharedPreferences.getString(option2Key, ""));
-            option3EditText.setText(sharedPreferences.getString(option3Key, ""));
-            option4EditText.setText(sharedPreferences.getString(option4Key, ""));
-            textEditText.setText(sharedPreferences.getString(textKey, ""));
-            answerEditText.addTextChangedListener(textWatcher);
-            pointsEditText.addTextChangedListener(textWatcher);
-            option1EditText.addTextChangedListener(textWatcher);
-            option2EditText.addTextChangedListener(textWatcher);
-            option3EditText.addTextChangedListener(textWatcher);
-            option4EditText.addTextChangedListener(textWatcher);
-            textEditText.addTextChangedListener(textWatcher);
+            if (existingQuestion) {
+                button.setText("Применить изменения");
+                makeButtonWhite();
+                EditText answerEditText = findViewById(R.id.view_question1_correct_answer);
+                EditText pointsEditText = findViewById(R.id.view_question1_points);
+                EditText option1EditText = findViewById(R.id.view_question1_option1);
+                EditText option2EditText = findViewById(R.id.view_question1_option2);
+                EditText option3EditText = findViewById(R.id.view_question1_option3);
+                EditText option4EditText = findViewById(R.id.view_question1_option4);
+                EditText textEditText = findViewById(R.id.view_question1_text);
+                answerEditText.setText(sharedPreferences.getString(answerKey, ""));
+                pointsEditText.setText("" + sharedPreferences.getInt(pointsKey, 0));
+                option1EditText.setText(sharedPreferences.getString(option1Key, ""));
+                option2EditText.setText(sharedPreferences.getString(option2Key, ""));
+                option3EditText.setText(sharedPreferences.getString(option3Key, ""));
+                option4EditText.setText(sharedPreferences.getString(option4Key, ""));
+                textEditText.setText(sharedPreferences.getString(textKey, ""));
+                answerEditText.addTextChangedListener(textWatcher);
+                pointsEditText.addTextChangedListener(textWatcher);
+                option1EditText.addTextChangedListener(textWatcher);
+                option2EditText.addTextChangedListener(textWatcher);
+                option3EditText.addTextChangedListener(textWatcher);
+                option4EditText.addTextChangedListener(textWatcher);
+                textEditText.addTextChangedListener(textWatcher);
+            }
         }
         else if (type == 1) {
             setContentView(R.layout.view_question2);
@@ -98,30 +104,34 @@ public class ChangeQuestionActivity extends AppCompatActivity {
             questionQuantity = findViewById(R.id.view_question2_quantity);
             questionQuantity.setText("/" + quantity);
             button = findViewById(R.id.view_question2_save_button);
-            EditText additionalTextEditText = findViewById(R.id.view_question2_sentence);
-            additionalTextEditText.setText(sharedPreferences.getString(additionalTextKey, ""));
-            EditText answerEditText = findViewById(R.id.view_question2_correct_answer);
-            answerEditText.setText(sharedPreferences.getString(answerKey, ""));
-            EditText pointsEditText = findViewById(R.id.view_question2_points);
-            pointsEditText.setText("" + sharedPreferences.getInt(pointsKey, 0));
-            EditText option1EditText = findViewById(R.id.view_question2_option1);
-            option1EditText.setText(sharedPreferences.getString(option1Key, ""));
-            EditText option2EditText = findViewById(R.id.view_question2_option2);
-            option2EditText.setText(sharedPreferences.getString(option2Key, ""));
-            EditText option3EditText = findViewById(R.id.view_question2_option3);
-            option3EditText.setText(sharedPreferences.getString(option3Key, ""));
-            EditText option4EditText = findViewById(R.id.view_question2_option4);
-            option4EditText.setText(sharedPreferences.getString(option4Key, ""));
-            EditText textEditText = findViewById(R.id.view_question2_text);
-            textEditText.setText(sharedPreferences.getString(textKey, ""));
-            additionalTextEditText.addTextChangedListener(textWatcher);
-            answerEditText.addTextChangedListener(textWatcher);
-            pointsEditText.addTextChangedListener(textWatcher);
-            option1EditText.addTextChangedListener(textWatcher);
-            option2EditText.addTextChangedListener(textWatcher);
-            option3EditText.addTextChangedListener(textWatcher);
-            option4EditText.addTextChangedListener(textWatcher);
-            textEditText.addTextChangedListener(textWatcher);
+            if (existingQuestion) {
+                button.setText("Применить изменения");
+                makeButtonWhite();
+                EditText additionalTextEditText = findViewById(R.id.view_question2_sentence);
+                additionalTextEditText.setText(sharedPreferences.getString(additionalTextKey, ""));
+                EditText answerEditText = findViewById(R.id.view_question2_correct_answer);
+                answerEditText.setText(sharedPreferences.getString(answerKey, ""));
+                EditText pointsEditText = findViewById(R.id.view_question2_points);
+                pointsEditText.setText("" + sharedPreferences.getInt(pointsKey, 0));
+                EditText option1EditText = findViewById(R.id.view_question2_option1);
+                option1EditText.setText(sharedPreferences.getString(option1Key, ""));
+                EditText option2EditText = findViewById(R.id.view_question2_option2);
+                option2EditText.setText(sharedPreferences.getString(option2Key, ""));
+                EditText option3EditText = findViewById(R.id.view_question2_option3);
+                option3EditText.setText(sharedPreferences.getString(option3Key, ""));
+                EditText option4EditText = findViewById(R.id.view_question2_option4);
+                option4EditText.setText(sharedPreferences.getString(option4Key, ""));
+                EditText textEditText = findViewById(R.id.view_question2_text);
+                textEditText.setText(sharedPreferences.getString(textKey, ""));
+                additionalTextEditText.addTextChangedListener(textWatcher);
+                answerEditText.addTextChangedListener(textWatcher);
+                pointsEditText.addTextChangedListener(textWatcher);
+                option1EditText.addTextChangedListener(textWatcher);
+                option2EditText.addTextChangedListener(textWatcher);
+                option3EditText.addTextChangedListener(textWatcher);
+                option4EditText.addTextChangedListener(textWatcher);
+                textEditText.addTextChangedListener(textWatcher);
+            }
         }
         else {
             setContentView(R.layout.view_question3);
@@ -130,24 +140,28 @@ public class ChangeQuestionActivity extends AppCompatActivity {
             questionQuantity = findViewById(R.id.view_question3_quantity);
             questionQuantity.setText("/" + quantity);
             button = findViewById(R.id.view_question3_save_button);
-            EditText additionalTextEditText = findViewById(R.id.view_question3_sentence);
-            additionalTextEditText.setText(sharedPreferences.getString(additionalTextKey, ""));
-            EditText answerEditText = findViewById(R.id.view_question3_correct_answer);
-            answerEditText.setText(sharedPreferences.getString(answerKey, ""));
-            EditText pointsEditText = findViewById(R.id.view_question3_points);
-            pointsEditText.setText("" + sharedPreferences.getInt(pointsKey, 0));
-            EditText textEditText = findViewById(R.id.view_question3_text);
-            textEditText.setText(sharedPreferences.getString(textKey, ""));
-            additionalTextEditText.addTextChangedListener(textWatcher);
-            answerEditText.addTextChangedListener(textWatcher);
-            pointsEditText.addTextChangedListener(textWatcher);
-            textEditText.addTextChangedListener(textWatcher);
+            if (existingQuestion) {
+                button.setText("Применить изменения");
+                makeButtonWhite();
+                EditText additionalTextEditText = findViewById(R.id.view_question3_sentence);
+                additionalTextEditText.setText(sharedPreferences.getString(additionalTextKey, ""));
+                EditText answerEditText = findViewById(R.id.view_question3_correct_answer);
+                answerEditText.setText(sharedPreferences.getString(answerKey, ""));
+                EditText pointsEditText = findViewById(R.id.view_question3_points);
+                pointsEditText.setText("" + sharedPreferences.getInt(pointsKey, 0));
+                EditText textEditText = findViewById(R.id.view_question3_text);
+                textEditText.setText(sharedPreferences.getString(textKey, ""));
+                additionalTextEditText.addTextChangedListener(textWatcher);
+                answerEditText.addTextChangedListener(textWatcher);
+                pointsEditText.addTextChangedListener(textWatcher);
+                textEditText.addTextChangedListener(textWatcher);
+            }
         }
     }
 
     public void changeQuestion1(View view)
     {
-        if (questionChanged) {
+        if (!existingQuestion || questionChanged) {
             EditText pointsEditText = findViewById(R.id.view_question1_points);
             String points = pointsEditText.getText().toString();
             if (!points.isEmpty()) {
@@ -168,6 +182,7 @@ public class ChangeQuestionActivity extends AppCompatActivity {
                         if (!answer.isEmpty()) {
                             if (isCorrectAnswer(answer)) {
                                 SharedPreferences.Editor editor = sharedPreferences.edit();
+                                editor.putInt(NUMBER_OF_QUESTIONS, quantity);
                                 String additionalTextKey = currentNumber + "additionalText";
                                 editor.putString(additionalTextKey, "");
                                 String answerKey = currentNumber + "answer";
@@ -184,9 +199,14 @@ public class ChangeQuestionActivity extends AppCompatActivity {
                                 editor.putString(option4Key, o4);
                                 String textKey = currentNumber + "text";
                                 editor.putString(textKey, text);
+                                String typeKey = currentNumber + "type";
+                                editor.putInt(typeKey, 0);
                                 editor.putBoolean(TEST_CHANGED, true);
                                 editor.apply();
-                                Toast.makeText(this, "Вопрос изменен!", Toast.LENGTH_SHORT).show();
+                                if (existingQuestion)
+                                    Toast.makeText(this, "Вопрос изменен!", Toast.LENGTH_SHORT).show();
+                                else
+                                    Toast.makeText(this, "Вопрос добавлен!", Toast.LENGTH_SHORT).show();
                                 Intent changeTestIntent = new Intent(this, ChangeTestActivity.class);
                                 startActivity(changeTestIntent);
                             } else
@@ -204,7 +224,7 @@ public class ChangeQuestionActivity extends AppCompatActivity {
 
     public void changeQuestion2(View view)
     {
-        if (questionChanged) {
+        if (!existingQuestion || questionChanged) {
             EditText pointsEditText = findViewById(R.id.view_question2_points);
             String points = pointsEditText.getText().toString();
             if (!points.isEmpty()) {
@@ -228,6 +248,7 @@ public class ChangeQuestionActivity extends AppCompatActivity {
                             if (!answer.isEmpty()) {
                                 if (isCorrectAnswer(answer)) {
                                     SharedPreferences.Editor editor = sharedPreferences.edit();
+                                    editor.putInt(NUMBER_OF_QUESTIONS, quantity);
                                     String additionalTextKey = currentNumber + "additionalText";
                                     editor.putString(additionalTextKey, additionalText);
                                     String answerKey = currentNumber + "answer";
@@ -244,9 +265,14 @@ public class ChangeQuestionActivity extends AppCompatActivity {
                                     editor.putString(option4Key, o4);
                                     String textKey = currentNumber + "text";
                                     editor.putString(textKey, text);
+                                    String typeKey = currentNumber + "type";
+                                    editor.putInt(typeKey, 1);
                                     editor.putBoolean(TEST_CHANGED, true);
                                     editor.apply();
-                                    Toast.makeText(this, "Вопрос изменен!", Toast.LENGTH_SHORT).show();
+                                    if (existingQuestion)
+                                        Toast.makeText(this, "Вопрос изменен!", Toast.LENGTH_SHORT).show();
+                                    else
+                                        Toast.makeText(this, "Вопрос добавлен!", Toast.LENGTH_SHORT).show();
                                     Intent changeTestIntent = new Intent(this, ChangeTestActivity.class);
                                     startActivity(changeTestIntent);
                                 } else
@@ -266,7 +292,7 @@ public class ChangeQuestionActivity extends AppCompatActivity {
 
     public void changeQuestion3(View view)
     {
-        if (questionChanged) {
+        if (!existingQuestion || questionChanged) {
             EditText pointsEditText = findViewById(R.id.view_question3_points);
             String points = pointsEditText.getText().toString();
             if (!points.isEmpty()) {
@@ -280,17 +306,31 @@ public class ChangeQuestionActivity extends AppCompatActivity {
                         String answer = answerEditText.getText().toString();
                         if (!answer.isEmpty()) {
                             SharedPreferences.Editor editor = sharedPreferences.edit();
+                            editor.putInt(NUMBER_OF_QUESTIONS, quantity);
                             String additionalTextKey = currentNumber + "additionalText";
                             editor.putString(additionalTextKey, additionalText);
                             String answerKey = currentNumber + "answer";
                             editor.putString(answerKey, answer);
                             String pointsKey = currentNumber + "points";
                             editor.putInt(pointsKey, Integer.parseInt(points));
+                            String option1Key = currentNumber + "option1";
+                            editor.putString(option1Key, "");
+                            String option2Key = currentNumber + "option2";
+                            editor.putString(option2Key, "");
+                            String option3Key = currentNumber + "option3";
+                            editor.putString(option3Key, "");
+                            String option4Key = currentNumber + "option4";
+                            editor.putString(option4Key, "");
                             String textKey = currentNumber + "text";
                             editor.putString(textKey, text);
+                            String typeKey = currentNumber + "type";
+                            editor.putInt(typeKey, 2);
                             editor.putBoolean(TEST_CHANGED, true);
                             editor.apply();
-                            Toast.makeText(this, "Вопрос изменен!", Toast.LENGTH_SHORT).show();
+                            if (existingQuestion)
+                                Toast.makeText(this, "Вопрос изменен!", Toast.LENGTH_SHORT).show();
+                            else
+                                Toast.makeText(this, "Вопрос добавлен!", Toast.LENGTH_SHORT).show();
                             Intent changeTestIntent = new Intent(this, ChangeTestActivity.class);
                             startActivity(changeTestIntent);
                         } else
@@ -310,26 +350,48 @@ public class ChangeQuestionActivity extends AppCompatActivity {
         button.setTextColor(Color.parseColor("#FFFFFF"));
     }
 
+    public void makeButtonWhite()
+    {
+        button.setBackgroundResource(R.drawable.orange_rounded_button);
+        button.setTextColor(getResources().getColor(R.color.colorAccent));
+    }
+
     @Override
     public void onBackPressed() {
-        if (questionChanged)
+        if (existingQuestion)
         {
+            if (questionChanged)
+            {
+                final Context currentContext = this;
+                new AlertDialog.Builder(this)
+                        .setMessage("Вы уверены, что хотите выйти, не сохранив изменения?")
+                        .setPositiveButton("Да", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                Intent buildingTestIntent = new Intent(currentContext, ChangeTestActivity.class);
+                                startActivity(buildingTestIntent);
+                            }
+                        })
+                        .setNegativeButton("Нет", null)
+                        .show();
+            }
+            else
+            {
+                Intent buildingTestIntent = new Intent(this, ChangeTestActivity.class);
+                startActivity(buildingTestIntent);
+            }
+        }
+        else {
             final Context currentContext = this;
             new AlertDialog.Builder(this)
-                    .setMessage("Вы уверены, что хотите выйти, не сохранив изменения?")
+                    .setMessage("Вы уверены, что хотите выйти, не сохранив вопрос?")
                     .setPositiveButton("Да", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
-                            Intent changeTestIntent = new Intent(currentContext, ChangeTestActivity.class);
-                            startActivity(changeTestIntent);
+                            Intent buildingTestIntent = new Intent(currentContext, ChangeTestActivity.class);
+                            startActivity(buildingTestIntent);
                         }
                     })
                     .setNegativeButton("Нет", null)
                     .show();
-        }
-        else
-        {
-            Intent changeTestIntent = new Intent(this, ChangeTestActivity.class);
-            startActivity(changeTestIntent);
         }
     }
 

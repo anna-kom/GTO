@@ -16,6 +16,7 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -39,11 +40,15 @@ public class ChangeTestActivity extends AppCompatActivity {
     private static final String INITIAL_TEST_NAME = "initialTestName";
     private static SharedPreferences sharedPreferences;
     private static int numberOfQuestions;
+    private static int currentNumber;
 
     private static ArrayList<Question> questions;
     private static DatabaseReference databaseReference;
     private static final String TEST_CHANGED = "testChanged";
     private Button button;
+
+    private static final String TOAST_MESSAGE_SHARED_PREFS = "toastMessageSharedPrefs";
+    private static final String HAS_SHOWN_TOAST_MESSAGE = "shownToast";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +59,9 @@ public class ChangeTestActivity extends AppCompatActivity {
         button.setOnClickListener(this::changeTest);
         makeButtonWhite();
         LinearLayout plusLayout = findViewById(R.id.addition_plus_layout);
-        plusLayout.setVisibility(View.GONE);
+        plusLayout.setOnClickListener(this::addQuestion);
+        ImageView plus = findViewById(R.id.addition_plus);
+        plus.setOnClickListener(this::addQuestion);
 
         if (!isInternetAvailable())
             Toast.makeText(this, "Проверьте свое подключение к интернету", Toast.LENGTH_SHORT).show();
@@ -79,6 +86,38 @@ public class ChangeTestActivity extends AppCompatActivity {
         }
         else
             loadScreen();
+
+        SharedPreferences toastPreferences = getSharedPreferences(TOAST_MESSAGE_SHARED_PREFS, MODE_PRIVATE);
+        boolean shownToast = toastPreferences.getBoolean(HAS_SHOWN_TOAST_MESSAGE, false);
+        if (!shownToast)
+        {
+            Toast.makeText(this, "Нажмите на кнопку \"+\", чтобы добавить вопрос", Toast.LENGTH_SHORT).show();
+            SharedPreferences.Editor editor = toastPreferences.edit();
+            editor.putBoolean(HAS_SHOWN_TOAST_MESSAGE, true);
+            editor.apply();
+        }
+    }
+
+    public void loadLinearLayout() {
+        numberOfQuestions = sharedPreferences.getInt(NUMBER_OF_QUESTIONS, 0);
+        LinearLayout linearLayout = findViewById(R.id.addition_question_delete_layout);
+        linearLayout.removeAllViews();
+        for (int i = 1; i <= numberOfQuestions; i++)
+        {
+            View question = getLayoutInflater().inflate(R.layout.addition_question_number, null);
+            question.setOnClickListener(this::showQuestionToChange);
+            TextView text = question.findViewById(R.id.addition_question_text);
+            String qText = "" + i + ". " + sharedPreferences.getString("" + i + "text", "");
+            text.setText(qText);
+            LinearLayout deleteLayout = question.findViewById(R.id.addition_question_delete_layout);
+            deleteLayout.setTag(i);
+            deleteLayout.setOnClickListener(this::changeDeleteQuestion);
+            ImageView delete = question.findViewById(R.id.addition_question_delete);
+            delete.setTag(i);
+            delete.setOnClickListener(this::changeDeleteQuestion);
+            linearLayout.addView(question);
+        }
+        currentNumber = numberOfQuestions + 1;
     }
 
     public void loadScreen() {
@@ -104,18 +143,7 @@ public class ChangeTestActivity extends AppCompatActivity {
             }
         });
 
-        numberOfQuestions = sharedPreferences.getInt(NUMBER_OF_QUESTIONS, 0);
-        LinearLayout linearLayout = findViewById(R.id.addition_linear_layout);
-        for (int i = 1; i <= numberOfQuestions; i++)
-        {
-            View question = getLayoutInflater().inflate(R.layout.addition_question_number, null);
-            question.setOnClickListener(this::showQuestionToChange);
-            TextView text = question.findViewById(R.id.addition_question_text);
-            String qText = "" + i + ". " + sharedPreferences.getString("" + i + "text", "");
-            text.setText(qText);
-            linearLayout.addView(question);
-        }
-
+        loadLinearLayout();
         boolean changed = sharedPreferences.getBoolean(TEST_CHANGED, false);
         if (changed)
             makeButtonOrange();
@@ -191,12 +219,112 @@ public class ChangeTestActivity extends AppCompatActivity {
         });
     }
 
+    public void addQuestion(View view) {
+        final AlertDialog questionDialog = new AlertDialog.Builder(this).setView(R.layout.building_dialog).create();
+        questionDialog.show();
+        TextView textView1 = questionDialog.findViewById(R.id.question_type1_dialog);
+        textView1.setOnClickListener(this::createQuestionOfType);
+        TextView textView2 = questionDialog.findViewById(R.id.question_type2_dialog);
+        textView2.setOnClickListener(this::createQuestionOfType);
+        TextView textView3 = questionDialog.findViewById(R.id.question_type3_dialog);
+        textView3.setOnClickListener(this::createQuestionOfType);
+    }
+
+    public void createQuestionOfType(View view) {
+        Intent questionIntent = new Intent(this, ChangeQuestionActivity.class);
+        int type = 0;
+        switch (view.getId()) {
+            case R.id.question_type1_dialog:
+                type = 0;
+                break;
+            case R.id.question_type2_dialog:
+                type = 1;
+                break;
+            case R.id.question_type3_dialog:
+                type = 2;
+                break;
+        }
+        questionIntent.putExtra("type", type);
+        questionIntent.putExtra("number", currentNumber);
+        questionIntent.putExtra("quantity", numberOfQuestions + 1);
+        startActivity(questionIntent);
+    }
+
+    public void changeDeleteQuestion(View view) {
+        new AlertDialog.Builder(this)
+                .setMessage("Вы уверены, что хотите удалить вопрос?")
+                .setPositiveButton("Да", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        int number = Integer.parseInt(view.getTag().toString());
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        for (int i = number; i < numberOfQuestions; i++) {
+                            String additionalTextKey  = i + "additionalText";
+                            String answerKey = i + "answer";
+                            String pointsKey = i + "points";
+                            String option1Key = i + "option1";
+                            String option2Key = i + "option2";
+                            String option3Key = i + "option3";
+                            String option4Key = i + "option4";
+                            String textKey = i + "text";
+                            String typeKey = i + "type";
+                            int j = i + 1;
+                            String additionalTextKeyNext  = j + "additionalText";
+                            String answerKeyNext = j + "answer";
+                            String pointsKeyNext = j + "points";
+                            String option1KeyNext = j + "option1";
+                            String option2KeyNext = j + "option2";
+                            String option3KeyNext = j + "option3";
+                            String option4KeyNext = j + "option4";
+                            String textKeyNext = j + "text";
+                            String typeKeyNext = j + "type";
+                            editor.putString(additionalTextKey, sharedPreferences.getString(additionalTextKeyNext, ""));
+                            editor.putString(answerKey, sharedPreferences.getString(answerKeyNext, ""));
+                            editor.putInt(pointsKey, sharedPreferences.getInt(pointsKeyNext, 0));
+                            editor.putString(option1Key, sharedPreferences.getString(option1KeyNext, ""));
+                            editor.putString(option2Key, sharedPreferences.getString(option2KeyNext, ""));
+                            editor.putString(option3Key, sharedPreferences.getString(option3KeyNext, ""));
+                            editor.putString(option4Key, sharedPreferences.getString(option4KeyNext, ""));
+                            editor.putString(textKey, sharedPreferences.getString(textKeyNext, ""));
+                            editor.putInt(typeKey, sharedPreferences.getInt(typeKeyNext, 0));
+                        }
+                        int lastNumber = numberOfQuestions;
+                        String additionalTextKeyLast  = lastNumber + "additionalText";
+                        String answerKeyLast = lastNumber + "answer";
+                        String pointsKeyLast = lastNumber + "points";
+                        String option1KeyLast = lastNumber + "option1";
+                        String option2KeyLast = lastNumber + "option2";
+                        String option3KeyLast = lastNumber + "option3";
+                        String option4KeyLast = lastNumber + "option4";
+                        String textKeyLast = lastNumber + "text";
+                        String typeKeyLast = lastNumber + "type";
+                        editor.remove(additionalTextKeyLast);
+                        editor.remove(answerKeyLast);
+                        editor.remove(pointsKeyLast);
+                        editor.remove(option1KeyLast);
+                        editor.remove(option2KeyLast);
+                        editor.remove(option3KeyLast);
+                        editor.remove(option4KeyLast);
+                        editor.remove(textKeyLast);
+                        editor.remove(typeKeyLast);
+                        editor.putInt(NUMBER_OF_QUESTIONS, --numberOfQuestions);
+                        editor.putBoolean(TEST_CHANGED, true);
+                        editor.apply();
+                        makeButtonOrange();
+                        loadLinearLayout();
+                    }
+                })
+                .setNegativeButton("Нет", null)
+                .show();
+    }
+
     public void changeTest(View view)
     {
         boolean changed = sharedPreferences.getBoolean(TEST_CHANGED, false);
         if (changed) {
             if (testName.isEmpty())
                 Toast.makeText(this, "Введите название теста", Toast.LENGTH_SHORT).show();
+            else if (numberOfQuestions == 0)
+                Toast.makeText(this, "Добавьте хотя бы один вопрос", Toast.LENGTH_SHORT).show();
             else if (!isInternetAvailable())
                 Toast.makeText(this, "Проверьте свое подключение к интернету", Toast.LENGTH_SHORT).show();
             else {
@@ -266,6 +394,8 @@ public class ChangeTestActivity extends AppCompatActivity {
         Intent showIntent = new Intent(this, ChangeQuestionActivity.class);
         showIntent.putExtra("type", sharedPreferences.getInt(typeKey, 0));
         showIntent.putExtra("number", number);
+        showIntent.putExtra("existingQuestion", true);
+        showIntent.putExtra("quantity", numberOfQuestions);
         startActivity(showIntent);
     }
 

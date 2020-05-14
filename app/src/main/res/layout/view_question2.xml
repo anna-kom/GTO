@@ -14,10 +14,10 @@
         android:layout_marginStart="@dimen/padding_standard"
         android:layout_marginEnd="@dimen/padding_standard"
         android:layout_marginBottom="@dimen/padding_standard"
-        android:background="@drawable/orange_rounded_button"
+        android:background="@drawable/orange_solid_rounded_button"
         android:onClick="changeQuestion2"
-        android:text="Применить изменения"
-        android:textColor="@color/colorAccent"
+        android:text="Сохранить вопрос"
+        android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -96,8 +96,6 @@
                     android:id="@+id/view_question2_text"
                     style="@style/input"
                     android:hint="Текст вопроса..."
-                    android:imeOptions="actionNext"
-                    android:singleLine="true"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/view_question2_text_s" />
@@ -114,6 +112,8 @@
                     android:id="@+id/view_question2_option1"
                     style="@style/input"
                     android:hint="Вариант 1..."
+                    android:imeOptions="actionNext"
+                    android:singleLine="true"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/view_question2_options" />
@@ -122,6 +122,8 @@
                     android:id="@+id/view_question2_option2"
                     style="@style/input"
                     android:hint="Вариант 2..."
+                    android:imeOptions="actionNext"
+                    android:singleLine="true"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/view_question2_option1" />
@@ -130,6 +132,8 @@
                     android:id="@+id/view_question2_option3"
                     style="@style/input"
                     android:hint="Вариант 3..."
+                    android:imeOptions="actionNext"
+                    android:singleLine="true"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/view_question2_option2" />
@@ -138,6 +142,8 @@
                     android:id="@+id/view_question2_option4"
                     style="@style/input"
                     android:hint="Вариант 4..."
+                    android:imeOptions="actionNext"
+                    android:singleLine="true"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/view_question2_option3" />

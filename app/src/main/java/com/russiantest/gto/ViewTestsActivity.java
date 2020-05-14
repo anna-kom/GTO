@@ -88,12 +88,8 @@ public class ViewTestsActivity extends AppCompatActivity {
                                 if (!isInternetAvailable())
                                     Toast.makeText(currentContext, "Проверьте свое подключение к интернету", Toast.LENGTH_SHORT).show();
                                 else {
-                                    if (Objects.equals(testName, "Основной тест"))
-                                        Toast.makeText(currentContext, "Не удаляйте основной тест, пожалуйста", Toast.LENGTH_SHORT).show();
-                                    else {
-                                        databaseReference.child(testName).removeValue();
-                                        Toast.makeText(currentContext, "Вы удалили " + testName, Toast.LENGTH_SHORT).show();
-                                    }
+                                    databaseReference.child(testName).removeValue();
+                                    Toast.makeText(currentContext, "Вы удалили " + testName, Toast.LENGTH_SHORT).show();
                                     recreate();
                                 }
                             }

@@ -95,8 +95,6 @@
                     android:id="@+id/question_type3_text"
                     style="@style/input"
                     android:hint="Текст вопроса..."
-                    android:imeOptions="actionNext"
-                    android:singleLine="true"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/question_type3_text_s" />
@@ -105,8 +103,6 @@
                     android:id="@+id/question_type3_sentence"
                     style="@style/input"
                     android:hint="Предложение вопроса..."
-                    android:imeOptions="actionNext"
-                    android:singleLine="true"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/question_type3_sentence_s" />
@@ -115,8 +111,6 @@
                     android:id="@+id/question_type3_correct_answer"
                     style="@style/input"
                     android:hint="Правильный ответ..."
-                    android:imeOptions="actionDone"
-                    android:singleLine="true"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/question_type3_correct_answer_s" />

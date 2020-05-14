@@ -38,7 +38,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-            android:id="@+id/imageView"
+            android:id="@+id/addition_plus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="startForm"
@@ -66,7 +66,7 @@
             android:scrollbars="none">
 
             <LinearLayout
-                android:id="@+id/addition_linear_layout"
+                android:id="@+id/addition_question_delete_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical" />

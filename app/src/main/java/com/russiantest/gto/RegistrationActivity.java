@@ -296,7 +296,10 @@ public class RegistrationActivity extends AppCompatActivity {
             Toast.makeText(this, "Введите дату рождения", Toast.LENGTH_SHORT).show();
             return false;
         } else if (!isCorrectYear(dateAndTime)) {
-            Toast.makeText(this, "Выбранный год не соответствует требованиям", Toast.LENGTH_SHORT).show();
+            int minYear = Calendar.getInstance().get(Calendar.YEAR) - 100;
+            int maxYear = Calendar.getInstance().get(Calendar.YEAR) - 14;
+            String message = "Введенный год должен быть от " + minYear + " до " + maxYear;
+            Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
             return false;
         } else if (password.getText().toString().isEmpty()) {
             Toast.makeText(this, "Введите пароль", Toast.LENGTH_SHORT).show();

@@ -95,9 +95,8 @@
                     android:id="@+id/question_type1_text"
                     style="@style/input"
                     android:hint="Текст вопроса..."
-                    android:imeOptions="actionNext"
-                    android:singleLine="true"
                     android:paddingEnd="20dp"
+                    android:singleLine="false"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/question_type1_text_s" />

@@ -25,6 +25,7 @@ public class QuestionBuildingActivity extends AppCompatActivity {
 
     private static final String TEST_SHARED_PREFS = "testSharedPrefs";
     private static final String NUMBER_OF_QUESTIONS = "numberOfQuestions";
+    private static final String TEST_CHANGED = "testChanged";
     private static int currentNumber;
     private static int quantity;
     private static boolean existingQuestion;
@@ -60,7 +61,7 @@ public class QuestionBuildingActivity extends AppCompatActivity {
             questionQuantity.setText("/" + quantity);
             button = findViewById(R.id.save_button);
             if (existingQuestion) {
-                button.setText("Изменить вопрос");
+                button.setText("Применить изменения");
                 makeButtonWhite();
                 SharedPreferences sharedPreferences = getSharedPreferences(TEST_SHARED_PREFS, MODE_PRIVATE);
                 String answerKey = currentNumber + "answer";
@@ -101,7 +102,7 @@ public class QuestionBuildingActivity extends AppCompatActivity {
             questionQuantity.setText("/" + quantity);
             button = findViewById(R.id.save_button);
             if (existingQuestion) {
-                button.setText("Изменить вопрос");
+                button.setText("Применить изменения");
                 makeButtonWhite();
                 SharedPreferences sharedPreferences = getSharedPreferences(TEST_SHARED_PREFS, MODE_PRIVATE);
                 String additionalTextKey = currentNumber + "additionalText";
@@ -146,7 +147,7 @@ public class QuestionBuildingActivity extends AppCompatActivity {
             questionQuantity.setText("/" + quantity);
             button = findViewById(R.id.save_button);
             if (existingQuestion) {
-                button.setText("Изменить вопрос");
+                button.setText("Применить изменения");
                 makeButtonWhite();
                 SharedPreferences sharedPreferences = getSharedPreferences(TEST_SHARED_PREFS, MODE_PRIVATE);
                 String additionalTextKey = currentNumber + "additionalText";
@@ -212,6 +213,7 @@ public class QuestionBuildingActivity extends AppCompatActivity {
                                 editor.putString(textKey, text);
                                 String typeKey = currentNumber + "type";
                                 editor.putInt(typeKey, 0);
+                                editor.putBoolean(TEST_CHANGED, true);
                                 editor.apply();
                                 if (existingQuestion)
                                     Toast.makeText(this, "Вопрос изменен!", Toast.LENGTH_SHORT).show();
@@ -278,6 +280,7 @@ public class QuestionBuildingActivity extends AppCompatActivity {
                                     editor.putString(textKey, text);
                                     String typeKey = currentNumber + "type";
                                     editor.putInt(typeKey, 1);
+                                    editor.putBoolean(TEST_CHANGED, true);
                                     editor.apply();
                                     if (existingQuestion)
                                         Toast.makeText(this, "Вопрос изменен!", Toast.LENGTH_SHORT).show();
@@ -336,6 +339,7 @@ public class QuestionBuildingActivity extends AppCompatActivity {
                             editor.putString(textKey, text);
                             String typeKey = currentNumber + "type";
                             editor.putInt(typeKey, 2);
+                            editor.putBoolean(TEST_CHANGED, true);
                             editor.apply();
                             if (existingQuestion)
                                 Toast.makeText(this, "Вопрос изменен!", Toast.LENGTH_SHORT).show();
